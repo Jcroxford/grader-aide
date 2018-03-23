@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "setup-dev": "npm i && npm i --prefix ./client"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,7 @@
   "devDependencies": {
     "json-server": "^0.12.1",
     "nodemon": "^1.17.2",
-    "reload": "^2.2.2"
+    "vue-cli": "^2.9.3"
   },
   "dependencies": {
     "body-parser": "^1.18.2",

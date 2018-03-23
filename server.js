@@ -19,7 +19,7 @@ let app = express();
 app.use(helmet());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static('client/dist'));
 
 // routes
 app.use('/api', assignmentRouter);
