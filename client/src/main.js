@@ -1,11 +1,11 @@
 import 'vuetify/dist/vuetify.min.css';
+import { Vuetify, VApp, VNavigationDrawer, VFooter, VList, VBtn, VIcon, VGrid, VToolbar, transitions } from 'vuetify';
 
 import Vue from 'vue';
 import App from './App';
 import router from './router';
 
 // vuetify config
-import { Vuetify, VApp, VNavigationDrawer, VFooter, VList, VBtn, VIcon, VGrid, VToolbar, transitions } from 'vuetify';
 
 Vue.use(Vuetify, {
   components: {
