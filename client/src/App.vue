@@ -1,13 +1,16 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
-  </div>
+  <v-app>
+    <div id="app">
+      <img src="./assets/logo.png">
+      <router-view/>
+      <v-btn color="success">Success</v-btn>
+    </div>
+  </v-app>
 </template>
 
 <script>
 export default {
-  name: 'App',
+  name: 'App'
 };
 </script>
 
