@@ -11,6 +11,9 @@ import {
   VGrid,
   VToolbar,
   VDivider,
+  VExpansionPanel,
+  VCheckbox,
+  VSubheader,
   transitions
 } from 'vuetify';
 
@@ -31,6 +34,9 @@ Vue.use(Vuetify, {
     VGrid,
     VToolbar,
     VDivider,
+    VExpansionPanel,
+    VCheckbox,
+    VSubheader,
     transitions
   }
 });

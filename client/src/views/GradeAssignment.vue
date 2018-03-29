@@ -1,18 +1,90 @@
 <template>
   <div class="assignment-container main-background">
-    <v-container>
+    <v-container grid-list-md>
       <v-layout row>
         <v-flex xs12>
           <v-card>
             <v-card-title primary-title>
-              <v-layout row>
+              <v-layout row wrap>
                 <v-flex xs12>
-                  <p class="display-3">test title</p>
-                  <h5 class="title mb-3">total points possible</h5>
+                  <p class="display-3">{{assignmentName}}</p>
+                  <h5 class="title mb-3">total points possible {{totalPts}}</h5>
                   <v-divider></v-divider>
                 </v-flex>
               </v-layout>
             </v-card-title>
+
+            <v-card-text>
+              <v-layout row wrap>
+                <!-- checklist -->
+                <v-flex xs6>
+                  <v-expansion-panel>
+                    <!-- rules -->
+                    <v-expansion-panel-content>
+                      <div slot="header">
+                        <v-icon class="mr-2">playlist_add_check</v-icon>Rules
+                      </div>
+                      <v-card>
+                        <v-card-text>
+                          <v-checkbox
+                            v-for="rule of rules"
+                            :key="rule.id"
+                            :label="handleDisplayRule(rule)"
+                            v-model="rule.checked"
+                          ></v-checkbox>
+                        </v-card-text>
+                      </v-card>
+                    </v-expansion-panel-content>
+
+                    <!-- comments -->
+                    <v-expansion-panel-content>
+                      <div slot="header">
+                        <v-icon class="mr-2">comment</v-icon>Comments
+                      </div>
+                      <v-card>
+                        <v-card-text>
+                          <v-checkbox
+                            v-for="comment of comments"
+                            :key="comment.id"
+                            :label="comment.desc"
+                            v-model="comment.checked"
+                          ></v-checkbox>
+                        </v-card-text>
+                      </v-card>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-flex>
+
+                <v-flex xs6>
+                  <v-card>
+                    <v-card-text>
+                      <v-list>
+                        <v-subheader>Rules</v-subheader>
+                        <template v-for="rule of selectedRules">
+                          <v-list-tile :key="rule.id">
+                            <v-list-tile-content>
+                              {{handleDisplayRule(rule)}}
+                            </v-list-tile-content>
+                          </v-list-tile>
+                        </template>
+                      </v-list>
+                      <v-divider></v-divider>
+
+                      <v-list>
+                        <v-subheader>Comments</v-subheader>
+                        <template v-for="comment of selectedComments">
+                          <v-list-tile :key="comment.id">
+                            <v-list-tile-content>
+                              {{comment.desc}}
+                            </v-list-tile-content>
+                          </v-list-tile>
+                        </template>
+                      </v-list>
+                    </v-card-text>
+                  </v-card>
+                </v-flex>
+              </v-layout>
+            </v-card-text>
           </v-card>
         </v-flex>
       </v-layout>
@@ -23,7 +95,64 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      assignmentName: 'Lab 1',
+      totalPts: '9999',
+      rules: [
+        {
+          id: 'ce5e019c-44e7-4c75-8309-496599bd7c64',
+          pts: -1,
+          desc: 'Test test test',
+          checked: true
+        },
+        {
+          id: '1678d1d2-fdec-41c7-8982-3d7e42eb4c99',
+          pts: -5,
+          desc: 'Hello World',
+          checked: false
+        },
+        {
+          id: 'bd2ab547-10c9-45e0-8169-c8e7355a5e4e',
+          pts: 1,
+          desc: 'Extra credit',
+          checked: false
+        }
+      ],
+      comments: [
+        {
+          id: '4163d23c-6bff-43ea-90b4-751012e52582',
+          desc: 'This is comment one',
+          checked: false
+        },
+        {
+          id: '006bfd49-04de-408c-8817-b5733777fb23',
+          desc: 'lorem ipsum',
+          checked: false
+        },
+        {
+          id: '241a2814-ec4f-448c-a8d8-6ebb7d4b35a2',
+          desc: 'A bird in the hand is worth two in the bush',
+          checked: false
+        }
+      ]
+    };
+  },
+  methods: {
+    // gui methods
+    handleDisplayRule({ pts, desc }) {
+      const formattedPts = pts < 0 ? pts : `+${pts}`;
+
+      return `${formattedPts} ${desc}`;
+    }
+    // data manipulation methods
+  },
+  computed: {
+    selectedRules() {
+      return this.rules.filter(rule => rule.checked);
+    },
+    selectedComments() {
+      return this.comments.filter(comment => comment.checked);
+    }
   }
 };
 </script>
