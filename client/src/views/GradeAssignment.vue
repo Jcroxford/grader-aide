@@ -2,7 +2,7 @@
   <div class="assignment-container main-background">
     <v-container grid-list-md>
       <v-layout row>
-        <v-flex xs12>
+        <v-flex xs10 offset-xs1>
           <v-card>
             <v-card-title primary-title>
               <v-layout row wrap>
@@ -52,6 +52,11 @@
                         </v-card-text>
                       </v-card>
                     </v-expansion-panel-content>
+
+                    <!-- actions -->
+                    <v-btn class="text-sm-left" color="success" @click="selectAll">All</v-btn>
+                    <v-btn color="error">Reset</v-btn>
+                    <v-btn color="yellow" light><v-icon>mode_edit</v-icon></v-btn>
                   </v-expansion-panel>
                 </v-flex>
 
@@ -96,6 +101,7 @@
 export default {
   data() {
     return {
+      // persistant data
       assignmentName: 'Lab 1',
       totalPts: '9999',
       rules: [
@@ -134,7 +140,9 @@ export default {
           desc: 'A bird in the hand is worth two in the bush',
           checked: false
         }
-      ]
+      ],
+      // gui data
+      allSelected: false
     };
   },
   methods: {
@@ -143,6 +151,12 @@ export default {
       const formattedPts = pts < 0 ? pts : `+${pts}`;
 
       return `${formattedPts} ${desc}`;
+    },
+    selectAll() {
+      this.allSelected = !this.allSelected
+      
+      this.rules = this.rules.map(rule => ({...rule, checked: this.allSelected }))
+      this.comments = this.comments.map(comment => ({...comment, checked: this.allSelected }))
     }
     // data manipulation methods
   },
