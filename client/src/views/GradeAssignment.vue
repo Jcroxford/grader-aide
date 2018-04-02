@@ -54,8 +54,19 @@
                     </v-expansion-panel-content>
 
                     <!-- actions -->
-                    <v-btn class="text-sm-left" color="success" @click="selectAll">All</v-btn>
-                    <v-btn color="error">Reset</v-btn>
+                    <v-btn 
+                      class="text-sm-left" 
+                      color="success" 
+                      @click="selectAll"
+                      :disabled="allOptionsSelected"
+                    >
+                      All
+                    </v-btn>
+                    <v-btn 
+                      color="error"
+                      :disabled="resettable"
+                      @click="resetSelections"
+                    >Reset</v-btn>
                     <v-btn color="yellow" light><v-icon>mode_edit</v-icon></v-btn>
                   </v-expansion-panel>
                 </v-flex>
@@ -141,8 +152,6 @@ export default {
           checked: false
         }
       ],
-      // gui data
-      allSelected: false
     };
   },
   methods: {
@@ -152,13 +161,15 @@ export default {
 
       return `${formattedPts} ${desc}`;
     },
-    selectAll() {
-      this.allSelected = !this.allSelected
-      
-      this.rules = this.rules.map(rule => ({...rule, checked: this.allSelected }))
-      this.comments = this.comments.map(comment => ({...comment, checked: this.allSelected }))
-    }
     // data manipulation methods
+    selectAll() {
+      this.rules = this.rules.map(rule => ({...rule, checked: true }))
+      this.comments = this.comments.map(comment => ({...comment, checked: true }))
+    },
+    resetSelections() {
+      this.rules = this.rules.map(rule => ({...rule, checked: false }))
+      this.comments = this.comments.map(comment => ({...comment, checked: false }))
+    }
   },
   computed: {
     selectedRules() {
@@ -166,6 +177,16 @@ export default {
     },
     selectedComments() {
       return this.comments.filter(comment => comment.checked);
+    },
+    allOptionsSelected() {
+      return (
+        this.selectedRules.length === this.rules.length 
+        && this.selectedComments.length === this.comments.length
+      )
+    },
+    resettable() {
+      const atLeastOneUsed = this.selectedRules.length || this.selectedComments.length
+      return !atLeastOneUsed
     }
   }
 };
