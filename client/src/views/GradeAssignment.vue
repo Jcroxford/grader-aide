@@ -8,11 +8,30 @@
           <v-card>
             <v-card-title primary-title>
               <v-layout row wrap>
-                <v-flex xs12>
-                  <p class="display-3">{{assignmentName}}</p>
-                  <h5 class="title mb-3">total points possible {{totalPts}}</h5>
-                  <v-divider></v-divider>
+                 <v-flex xs12>
+
+
+                <!-- INLINE assignment name editing -->
+                <template v-if="!assignmentEditable">
+                  <p class="display-3" @click="assignmentEditable = true">{{ assignmentName }}</p>
+                </template>
+                <template v-else>
+                  <input class="display-3" style="display: block;" v-model="assignmentName" v-on:keyup.enter="updateAssignmentName()" v-on:blur="updateAssignmentName()">
+                </template>
+
+                <!-- INLINE total points editing -->
+                <template v-if="!totalPtsEditable">
+                  <h5 class="title mb-3" @click="totalPtsEditable = true">Total points possible {{totalPts}}</h5>
+                </template>
+                <template v-else>
+                  <h5 style="display:inline;" class="title mb-3">Total Points Possible:
+                    <input style="width:100px; font-size:24px;" type="number" v-model="totalPts" v-on:keyup.enter="updateTotalPts()" v-on:blur="updateTotalPts()" />
+                  </h5>
+                </template>
+                
+                <v-divider></v-divider>
                 </v-flex>
+
               </v-layout>
             </v-card-title>
 
@@ -33,6 +52,7 @@
                             :key="rule.id"
                             :label="handleDisplayRule(rule)"
                             v-model="rule.checked"
+                            color="green"
                           ></v-checkbox>
                         </v-card-text>
                       </v-card>
@@ -50,6 +70,7 @@
                             :key="comment.id"
                             :label="comment.desc"
                             v-model="comment.checked"
+                            color="green"
                           ></v-checkbox>
                         </v-card-text>
                       </v-card>
@@ -83,7 +104,7 @@
                   <v-card>
                     <v-card-text>
                       <v-list>
-                        <v-subheader>Rules</v-subheader>
+                        <v-subheader><h2>Rules</h2></v-subheader>
                         <template v-for="rule of selectedRules">
                           <v-list-tile :key="rule.id">
                             <v-list-tile-content>
@@ -95,7 +116,7 @@
                       <v-divider></v-divider>
 
                       <v-list>
-                        <v-subheader>Comments</v-subheader>
+                        <v-subheader><h2>Comments</h2></v-subheader>
                         <template v-for="comment of selectedComments">
                           <v-list-tile :key="comment.id">
                             <v-list-tile-content>
@@ -118,50 +139,19 @@
 
 <script>
 import EditAssignmentModal from '@/components/EditAssignmentModal';
+import * as AssignmentAPI from '@/apis/assignment-api.js';
 
 export default {
   data() {
     return {
       // persistant data
-      assignmentName: 'Lab 1',
-      totalPts: '9999',
-      rules: [
-        {
-          id: 'ce5e019c-44e7-4c75-8309-496599bd7c64',
-          pts: -1,
-          desc: 'Test test test',
-          checked: true
-        },
-        {
-          id: '1678d1d2-fdec-41c7-8982-3d7e42eb4c99',
-          pts: -5,
-          desc: 'Hello World',
-          checked: false
-        },
-        {
-          id: 'bd2ab547-10c9-45e0-8169-c8e7355a5e4e',
-          pts: 1,
-          desc: 'Extra credit',
-          checked: false
-        }
-      ],
-      comments: [
-        {
-          id: '4163d23c-6bff-43ea-90b4-751012e52582',
-          desc: 'This is comment one',
-          checked: false
-        },
-        {
-          id: '006bfd49-04de-408c-8817-b5733777fb23',
-          desc: 'lorem ipsum',
-          checked: false
-        },
-        {
-          id: '241a2814-ec4f-448c-a8d8-6ebb7d4b35a2',
-          desc: 'A bird in the hand is worth two in the bush',
-          checked: false
-        }
-      ],
+      assignmentID: null,
+      assignmentName: null,
+      totalPts: null,
+      assignmentEditable: false,
+      totalPtsEditable: false,
+      rules: [],
+      comments: [],
       // gui state
       displayEdit: false
     };
@@ -181,6 +171,44 @@ export default {
     resetSelections() {
       this.rules = this.rules.map(rule => ({ ...rule, checked: false }));
       this.comments = this.comments.map(comment => ({ ...comment, checked: false }));
+    },
+    updateAssignmentName() {
+      //console.log(event);
+      this.assignmentEditable = false;
+      if (event.type == 'blur') {
+        this.updateAssignmentInDB();
+      }
+    },
+    updateTotalPts() {
+      //console.log(event);
+      this.totalPtsEditable = false;
+      if (event.type == 'blur') {
+        this.updateAssignmentInDB();
+      }
+    },
+    updateAssignmentInDB() {
+      let self = this;
+      if (self.assignmentID != null) {
+        AssignmentAPI.updateAssignment(self, function(res) {
+          //self.updateAllAssignmentsList();
+          //todo fix the line above with assignment switcher
+        }); //don't need to do anything once complete, just update in db
+      } else {
+        //new assignment needs to be created in database.
+
+        AssignmentAPI.createAssignment(self, function(res) {
+          self.assignmentID = res.data.assignmentId;
+          //self.updateAllAssignmentsList();
+          //todo fix the line above with assignment switcher
+        }); //don't need to do anything once complete, just update in db
+      }
+    },
+    updateAllAssignmentsList() {
+      let self = this;
+
+      AssignmentAPI.getAssignments(function(response) {
+        self.allAssignments = response;
+      });
     }
   },
   computed: {
@@ -201,6 +229,22 @@ export default {
       return !atLeastOneUsed;
     }
   },
+  created() {
+    let self = this;
+
+    AssignmentAPI.getAssignments(function(response) {
+      self.allAssignments = response;
+      AssignmentAPI.getAssignment(self.allAssignments[0]._id, function(res) {
+        //console.log('res: ', res);
+        //fill view with valid data from first object returned from line above.
+        self.assignmentID = res._id;
+        self.assignmentName = res.assignmentName;
+        self.totalPts = res.totalPts;
+        self.rules = res.rules;
+        self.comments = res.comments;
+      });
+    });
+  },
   components: {
     EditAssignmentModal
   }
@@ -212,6 +256,10 @@ export default {
   background: linear-gradient(rgb(76, 175, 80) 50%, rgb(250, 250, 250) 0%);
   position: fixed;
   background-attachment: fixed;
+}
+
+.assignment-name-input {
+  font-size: 44px !important;
 }
 
 .assignment-container {

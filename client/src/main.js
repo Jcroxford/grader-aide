@@ -16,6 +16,7 @@ import {
   VSubheader,
   VDialog,
   VDataTable,
+  VTextField,
   transitions
 } from 'vuetify';
 
@@ -41,6 +42,7 @@ Vue.use(Vuetify, {
     VSubheader,
     VDialog,
     VDataTable,
+    VTextField,
     transitions
   }
 });
