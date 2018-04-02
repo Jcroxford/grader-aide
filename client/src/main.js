@@ -14,6 +14,8 @@ import {
   VExpansionPanel,
   VCheckbox,
   VSubheader,
+  VDialog,
+  VDataTable,
   transitions
 } from 'vuetify';
 
@@ -37,6 +39,8 @@ Vue.use(Vuetify, {
     VExpansionPanel,
     VCheckbox,
     VSubheader,
+    VDialog,
+    VDataTable,
     transitions
   }
 });

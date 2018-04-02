@@ -1,5 +1,7 @@
 <template>
   <div class="assignment-container main-background">
+    <!-- popup for editing an assignment's rules and comments -->
+    <edit-assignment-modal :display="displayEdit"></edit-assignment-modal>
     <v-container grid-list-md>
       <v-layout row>
         <v-flex xs10 offset-xs1>
@@ -54,20 +56,26 @@
                     </v-expansion-panel-content>
 
                     <!-- actions -->
-                    <v-btn 
-                      class="text-sm-left" 
-                      color="success" 
+                    <v-btn
+                      class="text-sm-left"
+                      color="success"
                       @click="selectAll"
                       :disabled="allOptionsSelected"
                     >
                       All
                     </v-btn>
-                    <v-btn 
+                    <v-btn
                       color="error"
                       :disabled="resettable"
                       @click="resetSelections"
                     >Reset</v-btn>
-                    <v-btn color="yellow" light><v-icon>mode_edit</v-icon></v-btn>
+                    <v-btn
+                      color="yellow"
+                      light
+                      @click="displayEdit = !displayEdit"
+                    >
+                      <v-icon>mode_edit</v-icon>
+                    </v-btn>
                   </v-expansion-panel>
                 </v-flex>
 
@@ -109,6 +117,8 @@
 </template>
 
 <script>
+import EditAssignmentModal from '@/components/EditAssignmentModal';
+
 export default {
   data() {
     return {
@@ -152,6 +162,8 @@ export default {
           checked: false
         }
       ],
+      // gui state
+      displayEdit: false
     };
   },
   methods: {
@@ -163,12 +175,12 @@ export default {
     },
     // data manipulation methods
     selectAll() {
-      this.rules = this.rules.map(rule => ({...rule, checked: true }))
-      this.comments = this.comments.map(comment => ({...comment, checked: true }))
+      this.rules = this.rules.map(rule => ({ ...rule, checked: true }));
+      this.comments = this.comments.map(comment => ({ ...comment, checked: true }));
     },
     resetSelections() {
-      this.rules = this.rules.map(rule => ({...rule, checked: false }))
-      this.comments = this.comments.map(comment => ({...comment, checked: false }))
+      this.rules = this.rules.map(rule => ({ ...rule, checked: false }));
+      this.comments = this.comments.map(comment => ({ ...comment, checked: false }));
     }
   },
   computed: {
@@ -180,14 +192,17 @@ export default {
     },
     allOptionsSelected() {
       return (
-        this.selectedRules.length === this.rules.length 
-        && this.selectedComments.length === this.comments.length
-      )
+        this.selectedRules.length === this.rules.length &&
+        this.selectedComments.length === this.comments.length
+      );
     },
     resettable() {
-      const atLeastOneUsed = this.selectedRules.length || this.selectedComments.length
-      return !atLeastOneUsed
+      const atLeastOneUsed = this.selectedRules.length || this.selectedComments.length;
+      return !atLeastOneUsed;
     }
+  },
+  components: {
+    EditAssignmentModal
   }
 };
 </script>
