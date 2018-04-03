@@ -1,7 +1,10 @@
 <template>
   <div class="assignment-container main-background">
     <!-- popup for editing an assignment's rules and comments -->
-    <edit-assignment-modal :display="displayEdit"></edit-assignment-modal>
+    <edit-assignment-modal
+      :display="displayEdit"
+      @close-modal="displayEdit = false"
+    ></edit-assignment-modal>
     <v-container grid-list-md>
       <v-layout row>
         <v-flex xs10 offset-xs1>
@@ -72,7 +75,7 @@
                     <v-btn
                       color="yellow"
                       light
-                      @click="displayEdit = !displayEdit"
+                      @click="displayEdit = true"
                     >
                       <v-icon>mode_edit</v-icon>
                     </v-btn>
@@ -120,6 +123,9 @@
 import EditAssignmentModal from '@/components/EditAssignmentModal';
 
 export default {
+  created() {
+    console.log(process.env.NODE_ENV);
+  },
   data() {
     return {
       // persistant data

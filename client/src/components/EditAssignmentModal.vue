@@ -1,11 +1,13 @@
 <template>
-<v-dialog :value="display" persistent>
+<v-dialog :value="display" persistent max-width="1000px">
   <v-card>
     <v-card-text>
       <div class="display-2 grey--text text--darken-3">Edit Rules</div>
       <v-data-table :headers="ruleHeaders" :items="rules" hide-actions>
         <template slot="items" slot-scope="props">
-          <td class="tbl-sm-col">{{ props.item.pts }}</td>
+          <td class="tbl-sm-col">
+            <v-text-field v-model="props.item.pts" @blur="handleRuleEdited(props.item)"></v-text-field>
+          </td>
           <td>{{ props.item.desc }}</td>
           <td class="tbl-sm-col">
             <v-icon class="red--text text--darken-2 clickable">delete</v-icon>
@@ -14,7 +16,7 @@
       </v-data-table>
     </v-card-text>
     <v-card-actions>
-      <v-btn flat color="red">Cancel</v-btn>
+      <v-btn flat color="red" @click="handleCancelEdit">Cancel</v-btn>
       <v-btn flat class="yellow--text text--darken-2">Undo</v-btn>
       <v-btn flat color="success">Save Changes</v-btn>
     </v-card-actions>
@@ -73,6 +75,24 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    handleCancelEdit() {
+      this.$emit('close-modal');
+    },
+    // mutates rule in place
+    handleRuleEdited(rule) {
+      if (!!rule.pts) rule.pts = parseInt(rule.pts);
+
+      // clean rule
+      rule.desc = rule.desc.trim().replace(/\s+/g, ' ');
+    }
+  },
+  created() {
+    let self = this;
+    setInterval(() => {
+      console.log(self.rules);
+    }, 10000);
   }
 };
 </script>
