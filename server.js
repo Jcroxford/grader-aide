@@ -3,6 +3,7 @@ const logger = require('morgan');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 
 // controllers/routes
 const assignmentRouter = require('./routes/assignment.routes.js');
@@ -17,6 +18,7 @@ let app = express();
 
 // middleware
 app.use(helmet());
+app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(express.static('public'));
@@ -35,7 +37,7 @@ db
       console.log(`Listening on http://localhost:${port}\n`);
     });
   })
-  .catch((err) => {
+  .catch(err => {
     console.log('\nUnable to establish connection to the database\n');
     console.log(err);
     process.exit(1);
