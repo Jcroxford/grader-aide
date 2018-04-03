@@ -17,12 +17,17 @@ import {
   VDialog,
   VDataTable,
   VTextField,
+  VTooltip,
   transitions
 } from 'vuetify';
 
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+
+import VueClipboard from 'vue-clipboard2';
+
+Vue.use(VueClipboard);
 
 // vuetify config
 Vue.use(Vuetify, {
@@ -43,6 +48,7 @@ Vue.use(Vuetify, {
     VDialog,
     VDataTable,
     VTextField,
+    VTooltip,
     transitions
   }
 });

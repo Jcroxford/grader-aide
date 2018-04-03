@@ -21,7 +21,7 @@
 
                 <!-- INLINE total points editing -->
                 <template v-if="!totalPtsEditable">
-                  <h5 class="title mb-3" @click="totalPtsEditable = true">Total points possible {{totalPts}}</h5>
+                  <h5 class="title mb-3" @click="totalPtsEditable = true">Total points possible: {{totalPts}}</h5>
                 </template>
                 <template v-else>
                   <h5 style="display:inline;" class="title mb-3">Total Points Possible:
@@ -126,6 +126,23 @@
                         </template>
                       </v-list>
                     </v-card-text>
+                    <v-layout row>
+                      <v-flex xs12>
+                        <!-- <v-tooltip bottom> -->
+                          <v-btn
+                            type="button"
+                            class="right"
+                            color="green"
+                            light
+                            v-clipboard:copy="copyToClip()"
+                            v-clipboard:success="onCopy"
+                            v-clipboard:error="onError">
+                          <v-icon>content_copy</v-icon>
+                        </v-btn>                          
+                        <!-- <span>Copy to Clipboard</span>
+                      </v-tooltip> -->
+                      </v-flex>
+                    </v-layout>
                   </v-card>
                 </v-flex>
               </v-layout>
@@ -138,6 +155,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import EditAssignmentModal from '@/components/EditAssignmentModal';
 import * as AssignmentAPI from '@/apis/assignment-api.js';
 
@@ -162,6 +180,23 @@ export default {
       const formattedPts = pts < 0 ? pts : `+${pts}`;
 
       return `${formattedPts} ${desc}`;
+    },
+    copyToClip() {
+      let self = this;
+      let checkedRules = self.selectedRules.map(function(rule) {
+        return `\t${rule['pts']} ${rule['desc']}\n`;
+      });
+      let checkedComments = self.selectedComments.map(function(comment) {
+        return `\t${comment['desc']}\n`;
+      });
+
+      return `Rules: \n${checkedRules} \nComments: \n${checkedComments}`.replace(/,/g, ''); //.replace(/,/g, '') removes commas from the outputed list for cleaner output.
+    },
+    onCopy: function(e) {
+      console.log('Copied: \n', e.text);
+    },
+    onError: function(e) {
+      console.log('Failed to copy to clip.');
     },
     // data manipulation methods
     selectAll() {
