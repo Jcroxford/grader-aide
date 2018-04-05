@@ -2,8 +2,12 @@
   <div class="assignment-container main-background">
     <!-- popup for editing an assignment's rules and comments -->
     <edit-assignment-modal
+      v-if="displayEdit"
       :display="displayEdit"
+      :rules="rules"
+      :comments="comments"
       @close-modal="displayEdit = false"
+      @save-edits="handleSaveEdits"
     ></edit-assignment-modal>
     <v-container grid-list-md>
       <v-layout row>
@@ -12,8 +16,6 @@
             <v-card-title primary-title>
               <v-layout row wrap>
                  <v-flex xs12>
-
-
                 <!-- INLINE assignment name editing -->
                 <template v-if="!assignmentEditable">
                   <p class="display-3" @click="assignmentEditable = true">{{ assignmentName }}</p>
@@ -250,6 +252,10 @@ export default {
       AssignmentAPI.getAssignments(function(response) {
         self.allAssignments = response;
       });
+    },
+    handleSaveEdits({ rules, comments }) {
+      this.rules = rules;
+      this.comments = comments;
     }
   },
   computed: {
