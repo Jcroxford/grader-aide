@@ -1,7 +1,14 @@
 <template>
   <div class="assignment-container main-background">
     <!-- popup for editing an assignment's rules and comments -->
-    <edit-assignment-modal v-if="displayEdit" :display="displayEdit" :rules="rules" :comments="comments" @close-modal="displayEdit = false" @save-edits="handleSaveEdits"></edit-assignment-modal>
+    <edit-assignment-modal
+      v-if="displayEdit"
+      :display="displayEdit"
+      :rules="rules"
+      :comments="comments"
+      @close-modal="displayEdit = false"
+      @save-edits="handleSaveEdits"
+    ></edit-assignment-modal>
     <v-container grid-list-md>
       <v-layout row>
         <v-flex xs10 offset-xs1>
@@ -126,7 +133,7 @@
                               {{handleDisplayRule(rule)}}
                             </v-list-tile-content>
                           </v-list-tile>
-                        </template> 
+                        </template>
                       </v-list>
                       <v-divider></v-divider>
 
