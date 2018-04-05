@@ -150,19 +150,20 @@
                     </v-card-text>
                     <v-layout row>
                       <v-flex xs12>
-                        <!-- <v-tooltip bottom> -->
+                        <v-tooltip bottom>
                           <v-btn
                             type="button"
                             class="right"
                             color="green"
-                            light
+                            slot="activator"
+                            dark
                             v-clipboard:copy="copyToClip()"
                             v-clipboard:success="onCopy"
                             v-clipboard:error="onError">
                           <v-icon>content_copy</v-icon>
                         </v-btn>
-                        <!-- <span>Copy to Clipboard</span>
-                      </v-tooltip> -->
+                        <span>Copy to clipboard</span>
+                      </v-tooltip>
                       </v-flex>
                     </v-layout>
                   </v-card>

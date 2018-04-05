@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar dark color="green" absolute="true">
+    <v-toolbar dark color="green" absolute>
       <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
       <v-toolbar-title class="clickable">Grader-Aide</v-toolbar-title>
       <v-spacer></v-spacer>

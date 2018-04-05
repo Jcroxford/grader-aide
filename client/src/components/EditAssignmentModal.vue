@@ -172,6 +172,8 @@ export default {
 
       this.scopedComments = this.deepCopy(this.comments);
       this.scopedComments.push({ desc: '', id: new ObjectId().toString() });
+      // console.log('scopedRules: ', scopedRules);
+      // console.log('scopedComments: ', scopedComments);
     },
     handleSaveEdits() {
       const rules = this.deepCopy(this.scopedRules);
