@@ -10,7 +10,6 @@
         </v-toolbar-items>
     </v-toolbar>
     </div>
-  
 </template>
 
 
