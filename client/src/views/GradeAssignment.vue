@@ -256,6 +256,18 @@ export default {
     handleSaveEdits({ rules, comments }) {
       this.rules = rules;
       this.comments = comments;
+
+      const assignment = {
+        assignmentID: this.assignmentID,
+        assignmentName: this.assignmentName,
+        totalPts: this.totalPts,
+        rules: this.rules.map(rule => ({ ...rule, checked: false })),
+        comments: this.comments.map(comment => ({ ...comment, checked: false }))
+      };
+
+      AssignmentAPI.updateAssignment(assignment, res => {
+        console.log(res);
+      });
     }
   },
   computed: {

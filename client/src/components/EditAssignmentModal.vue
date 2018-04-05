@@ -19,7 +19,7 @@
               color="success"
               v-model="props.item.desc"
               @blur="handleRuleEdited(props.item)"
-              @keyup="checkAddRule(props.item.id)"
+              @keyup="checkAddRule(props.index)"
             ></v-text-field>
           </td>
           <td class="tbl-sm-col">
@@ -27,7 +27,33 @@
               <v-icon 
                 class="red--text text--darken-2 clickable" 
                 slot="activator"
-                @click="deleteItem(props.item)"
+                @click="deleteItem(props.item, props.index)"
+              >
+                delete
+              </v-icon>
+              <span>Delete</span>
+            </v-tooltip>
+          </td>
+        </template>
+      </v-data-table>
+
+      <div class="display-2 grey--text text--darken-3">Edit Comments</div>
+      <v-data-table :headers="commentHeaders" :items="scopedComments" hide-actions>
+        <template slot="items" slot-scope="props">
+          <td>
+            <v-text-field
+              color="success"
+              v-model="props.item.desc"
+              @blur="handleCommentEdited(props.item)"
+              @keyup="checkAddComment(props.index)"
+            ></v-text-field>
+          </td>
+          <td class="tbl-sm-col">
+            <v-tooltip bottom v-if="!isLastRule(props.item.id)">
+              <v-icon
+                class="red--text text--darken-2 clickable" 
+                slot="activator"
+                @click="deleteItem(props.item, props.index)"
               >
                 delete
               </v-icon>
@@ -40,7 +66,7 @@
     
     <v-card-actions>
       <v-btn flat color="red" @click="handleCancelEdit">Cancel</v-btn>
-      <v-btn flat class="yellow--text text--darken-2" :disabled="stackIsEmpty">Undo</v-btn>
+      <v-btn flat class="yellow--text text--darken-2" :disabled="stackIsEmpty" @click="undoDelete">Undo</v-btn>
       <v-btn flat color="success" @click="handleSaveEdits">Save Changes</v-btn>
     </v-card-actions>
   </v-card>
@@ -106,23 +132,15 @@ export default {
     deepCopy(arr) {
       return JSON.parse(JSON.stringify(arr));
     },
-    deleteItem(item) {
+    deleteItem(item, index) {
+      this.deleteStack.push({ item, index });
+
       function isItemToBeRemoved(candidateItem) {
         return item.id !== candidateItem.id;
       }
 
-      // these indeces represent potential splice candidates
-      const ruleIndex = this.scopedRules.findIndex(isItemToBeRemoved);
-      const commentIndex = this.scopedComments.findIndex(isItemToBeRemoved);
-      const isRule = ~ruleIndex;
-
-      isRule ? this.scopedRules.splice(index, 1) : this.scopedComments.splice(index, 1);
-
-      const index = isRule ? ruleIndex : commentIndex;
-
-      this.deleteStack.push({ item, index });
-
-      console.log(this.scopedRules);
+      this.scopedRules = this.scopedRules.filter(isItemToBeRemoved);
+      this.scopedComments = this.scopedComments.filter(isItemToBeRemoved);
     },
     undoDelete() {
       let { item, index } = this.deleteStack.pop();
@@ -134,7 +152,7 @@ export default {
         this.scopedComments.splice(index, 0, item);
       }
     },
-    resetEditableArrays() {
+    initScopedArrays() {
       this.scopedRules = this.deepCopy(this.rules);
       this.scopedRules.push({ desc: '', pts: null, checked: false, id: new ObjectId().toString() });
 
@@ -156,10 +174,8 @@ export default {
     // ==================================================
     // rule functions
     // ==================================================
-    isLastRule(id) {
-      const idexOfRule = this.scopedRules.findIndex(rule => rule.id === id);
-
-      return idexOfRule == this.scopedRules.length - 1;
+    isLastRule(index) {
+      return index == this.scopedRules.length - 1;
     },
     // mutates rule in place
     handleRuleEdited(rule) {
@@ -168,14 +184,15 @@ export default {
       // clean rule
       rule.desc = rule.desc.trim().replace(/\s+/g, ' ');
     },
-    checkAddRule(ruleId) {
-      if (this.isLastRule(ruleId))
+    checkAddRule(ruleIndex) {
+      if (this.isLastRule(ruleIndex)) {
         this.scopedRules.push({
           desc: '',
           pts: null,
           checked: false,
           id: new ObjectId().toString()
         });
+      }
     },
     // ==================================================
     // comment functions
@@ -187,7 +204,13 @@ export default {
       comment.desc = comment.desc.trim().replace(/\s+/g, ' ');
     },
     checkAddComment(commentIndex) {
-      if (this.isLastComment(commentIndex)) this.scopedComments.push({ desc: '', pts: null });
+      if (this.isLastComment(commentIndex)) {
+        this.scopedComments.push({
+          desc: '',
+          pts: null,
+          id: new ObjectId().toString()
+        });
+      }
     }
   },
   computed: {
@@ -196,7 +219,7 @@ export default {
     }
   },
   created() {
-    this.resetEditableArrays();
+    this.initScopedArrays();
   }
 };
 </script>
