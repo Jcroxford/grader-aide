@@ -1,14 +1,7 @@
 <template>
   <div class="assignment-container main-background">
     <!-- popup for editing an assignment's rules and comments -->
-    <edit-assignment-modal
-      v-if="displayEdit"
-      :display="displayEdit"
-      :rules="rules"
-      :comments="comments"
-      @close-modal="displayEdit = false"
-      @save-edits="handleSaveEdits"
-    ></edit-assignment-modal>
+    <edit-assignment-modal v-if="displayEdit" :display="displayEdit" :rules="rules" :comments="comments" @close-modal="displayEdit = false" @save-edits="handleSaveEdits"></edit-assignment-modal>
     <v-container grid-list-md>
       <v-layout row>
         <v-flex xs10 offset-xs1>
@@ -133,19 +126,19 @@
                               {{handleDisplayRule(rule)}}
                             </v-list-tile-content>
                           </v-list-tile>
-                        </template>
+                        </template> 
                       </v-list>
                       <v-divider></v-divider>
 
                       <v-list>
                         <v-subheader><h2>Comments</h2></v-subheader>
-                        <template v-for="comment of selectedComments">
-                          <v-list-tile :key="comment.id">
-                            <v-list-tile-content>
-                              {{comment.desc}}
-                            </v-list-tile-content>
-                          </v-list-tile>
-                        </template>
+                    <template v-for="comment of selectedComments">
+                      <v-list-tile :key="comment.id">
+                        <v-list-tile-content>
+                          {{comment.desc}}
+                        </v-list-tile-content>
+                      </v-list-tile>
+                    </template>
                       </v-list>
                     </v-card-text>
                     <v-layout row>
@@ -225,12 +218,24 @@ export default {
     },
     // data manipulation methods
     selectAll() {
-      this.rules = this.rules.map(rule => ({ ...rule, checked: true }));
-      this.comments = this.comments.map(comment => ({ ...comment, checked: true }));
+      this.rules = this.rules.map(rule => ({
+        ...rule,
+        checked: true
+      }));
+      this.comments = this.comments.map(comment => ({
+        ...comment,
+        checked: true
+      }));
     },
     resetSelections() {
-      this.rules = this.rules.map(rule => ({ ...rule, checked: false }));
-      this.comments = this.comments.map(comment => ({ ...comment, checked: false }));
+      this.rules = this.rules.map(rule => ({
+        ...rule,
+        checked: false
+      }));
+      this.comments = this.comments.map(comment => ({
+        ...comment,
+        checked: false
+      }));
     },
     updateAssignmentName() {
       //console.log(event);
@@ -278,8 +283,14 @@ export default {
         assignmentID: this.assignmentID,
         assignmentName: this.assignmentName,
         totalPts: this.totalPts,
-        rules: this.rules.map(rule => ({ ...rule, checked: false })),
-        comments: this.comments.map(comment => ({ ...comment, checked: false }))
+        rules: this.rules.map(rule => ({
+          ...rule,
+          checked: false
+        })),
+        comments: this.comments.map(comment => ({
+          ...comment,
+          checked: false
+        }))
       };
 
       AssignmentAPI.updateAssignment(assignment, res => {
@@ -329,7 +340,7 @@ export default {
 
 <style scoped>
 .main-background {
-  background: linear-gradient(rgb(76, 175, 80) 50%, rgb(250, 250, 250) 0%);
+  background: linear-gradient(rgb(76, 175, 80) 50%, rgb(248, 250, 248) 0%);
   position: fixed;
   background-attachment: fixed;
 }

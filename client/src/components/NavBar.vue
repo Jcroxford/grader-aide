@@ -1,15 +1,16 @@
 <template>
-    <div>
-        <v-toolbar dark color="green" absolute="true">
-        <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
-        <v-toolbar-title class="clickable">Grader-Aide</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn flat>View Submissions</v-btn>
-          <v-btn flat>Login</v-btn>
-        </v-toolbar-items>
+  <div>
+    <v-toolbar dark color="green" absolute="true">
+      <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
+      <v-toolbar-title class="clickable">Grader-Aide</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn flat>View Submissions</v-btn>
+        <v-btn flat>All Assignments</v-btn>
+        <v-btn flat>Login</v-btn>
+      </v-toolbar-items>
     </v-toolbar>
-    </div>
+  </div>
 </template>
 
 
