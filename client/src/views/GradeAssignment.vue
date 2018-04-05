@@ -21,19 +21,36 @@
                   <p class="display-3" @click="assignmentEditable = true">{{ assignmentName }}</p>
                 </template>
                 <template v-else>
-                  <input class="display-3" style="display: block;" v-model="assignmentName" v-on:keyup.enter="updateAssignmentName()" v-on:blur="updateAssignmentName()">
+                  <input
+                    class="display-3"
+                    style="display: block;"
+                    v-model="assignmentName"
+                    v-on:keyup.enter="updateAssignmentName()"
+                    v-on:blur="updateAssignmentName()"
+                  >
                 </template>
 
                 <!-- INLINE total points editing -->
                 <template v-if="!totalPtsEditable">
-                  <h5 class="title mb-3" @click="totalPtsEditable = true">Total points possible: {{totalPts}}</h5>
+                  <h5
+                    class="title mb-3"
+                    @click="totalPtsEditable = true"
+                  >
+                    Total points possible: {{totalPts}}
+                  </h5>
                 </template>
                 <template v-else>
                   <h5 style="display:inline;" class="title mb-3">Total Points Possible:
-                    <input style="width:100px; font-size:24px;" type="number" v-model="totalPts" v-on:keyup.enter="updateTotalPts()" v-on:blur="updateTotalPts()" />
+                    <input
+                      style="width:100px; font-size:24px;"
+                      type="number"
+                      v-model="totalPts"
+                      v-on:keyup.enter="updateTotalPts()"
+                      v-on:blur="updateTotalPts()"
+                    />
                   </h5>
                 </template>
-                
+
                 <v-divider></v-divider>
                 </v-flex>
 
@@ -143,7 +160,7 @@
                             v-clipboard:success="onCopy"
                             v-clipboard:error="onError">
                           <v-icon>content_copy</v-icon>
-                        </v-btn>                          
+                        </v-btn>
                         <!-- <span>Copy to Clipboard</span>
                       </v-tooltip> -->
                       </v-flex>

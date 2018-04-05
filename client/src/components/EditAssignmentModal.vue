@@ -24,8 +24,8 @@
           </td>
           <td class="tbl-sm-col">
             <v-tooltip bottom v-if="!isLastRule(props.item.id)">
-              <v-icon 
-                class="red--text text--darken-2 clickable" 
+              <v-icon
+                class="red--text text--darken-2 clickable"
                 slot="activator"
                 @click="deleteItem(props.item, props.index)"
               >
@@ -51,7 +51,7 @@
           <td class="tbl-sm-col">
             <v-tooltip bottom v-if="!isLastRule(props.item.id)">
               <v-icon
-                class="red--text text--darken-2 clickable" 
+                class="red--text text--darken-2 clickable"
                 slot="activator"
                 @click="deleteItem(props.item, props.index)"
               >
@@ -63,11 +63,24 @@
         </template>
       </v-data-table>
     </v-card-text>
-    
+
     <v-card-actions>
       <v-btn flat color="red" @click="handleCancelEdit">Cancel</v-btn>
-      <v-btn flat class="yellow--text text--darken-2" :disabled="stackIsEmpty" @click="undoDelete">Undo</v-btn>
-      <v-btn flat color="success" @click="handleSaveEdits">Save Changes</v-btn>
+      <v-btn
+        flat
+        class="yellow--text text--darken-2"
+        :disabled="stackIsEmpty"
+        @click="undoDelete"
+      >
+        Undo
+      </v-btn>
+      <v-btn
+        flat
+        color="success"
+        @click="handleSaveEdits"
+      >
+        Save Changes
+      </v-btn>
     </v-card-actions>
   </v-card>
 </v-dialog>
@@ -75,6 +88,7 @@
 
 <script>
 import { ObjectId } from 'bson';
+
 export default {
   props: {
     display: { type: Boolean, required: true },
@@ -143,7 +157,7 @@ export default {
       this.scopedComments = this.scopedComments.filter(isItemToBeRemoved);
     },
     undoDelete() {
-      let { item, index } = this.deleteStack.pop();
+      const { item, index } = this.deleteStack.pop();
       // item is a rule if it has a pts option
       if (item.pts) {
         this.scopedRules.splice(index, 0, item);
@@ -175,11 +189,11 @@ export default {
     // rule functions
     // ==================================================
     isLastRule(index) {
-      return index == this.scopedRules.length - 1;
+      return index === this.scopedRules.length - 1;
     },
     // mutates rule in place
     handleRuleEdited(rule) {
-      if (!!rule.pts) rule.pts = parseInt(rule.pts);
+      if (rule.pts) rule.pts = parseInt(rule.pts, 10);
 
       // clean rule
       rule.desc = rule.desc.trim().replace(/\s+/g, ' ');
@@ -198,7 +212,7 @@ export default {
     // comment functions
     // ==================================================
     isLastComment(index) {
-      return index == this.scopedComments.length - 1;
+      return index === this.scopedComments.length - 1;
     },
     handleCommentEdited(comment) {
       comment.desc = comment.desc.trim().replace(/\s+/g, ' ');

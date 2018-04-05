@@ -1,3 +1,4 @@
+import VueClipboard from 'vue-clipboard2';
 import 'vuetify/dist/vuetify.min.css';
 import {
   Vuetify,
@@ -24,8 +25,6 @@ import {
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-
-import VueClipboard from 'vue-clipboard2';
 
 Vue.use(VueClipboard);
 
