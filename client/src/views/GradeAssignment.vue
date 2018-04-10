@@ -130,7 +130,7 @@
                         <template v-for="rule of selectedRules">
                           <v-list-tile :key="rule.id">
                             <v-list-tile-content>
-                              {{handleDisplayRule(rule)}}
+                              <span class="rules-and-comments">{{handleDisplayRule(rule)}}</span>
                             </v-list-tile-content>
                           </v-list-tile>
                         </template>
@@ -142,7 +142,7 @@
                     <template v-for="comment of selectedComments">
                       <v-list-tile :key="comment.id">
                         <v-list-tile-content>
-                          {{comment.desc}}
+                          <span class="rules-and-comments">{{comment.desc}}</span>
                         </v-list-tile-content>
                       </v-list-tile>
                     </template>
@@ -150,6 +150,8 @@
                     </v-card-text>
                     <v-layout row>
                       <v-flex xs12>
+                       <strong class="pts-received">{{ptsReceived}}</strong>
+                       /{{totalPts}} possible
                         <v-tooltip bottom>
                           <v-btn
                             type="button"
@@ -216,7 +218,9 @@ export default {
         return `\t${comment['desc']}\n`;
       });
 
-      return `Rules: \n${checkedRules} \nComments: \n${checkedComments}`.replace(/,/g, ''); //.replace(/,/g, '') removes commas from the outputed list for cleaner output.
+      return `Rules: \n${checkedRules} \nComments: \n${checkedComments}\n${
+        this.ptsReceived
+      } received out of ${this.totalPts} possible.`.replace(/,/g, ''); //.replace(/,/g, '') removes commas from the outputed list for cleaner output.
     },
     onCopy: function(e) {
       console.log('Copied: \n', e.text);
@@ -307,6 +311,13 @@ export default {
     }
   },
   computed: {
+    ptsReceived() {
+      let ptsReceived = parseInt(this.totalPts);
+      for (let rule of this.selectedRules) {
+        ptsReceived += parseInt(rule.pts);
+      }
+      return ptsReceived;
+    },
     selectedRules() {
       return this.rules.filter(rule => rule.checked);
     },
@@ -353,8 +364,16 @@ export default {
   background-attachment: fixed;
 }
 
+.pts-received {
+  font-size: 30px;
+  margin-left: 30px;
+}
+
 .assignment-name-input {
   font-size: 44px !important;
+}
+.rules-and-comments {
+  margin-left: 25px;
 }
 
 .assignment-container {
