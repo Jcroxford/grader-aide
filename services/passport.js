@@ -2,18 +2,22 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 
+const User = require('../models/user.model');
+
 passport.use(
-  new LocalStrategy((username, password, done) => {
+  new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
     // fixme need true auth eventually
-    isAuthenticated = Math.floor(Math.random() * 100) > 50;
+    let persistedUser;
+    User.findUser({ email })
+      .then(user => {
+        if (!user) return false;
 
-    if (!isAuthenticated) return done(null, false, { message: 'you shall not pass!' });
+        persistedUser = user;
 
-    bcrypt
-      .genSalt(10)
-      .then(salt => bcrypt.hash(password, salt))
-      .then(hash => done(null, { username, password: hash }))
-      .catch(console.log);
+        return bcrypt.compare(password, user.password);
+      })
+      .then(isAuthenticated => (isAuthenticated ? done(null, persistedUser) : done(null, false)))
+      .catch(err => done(err, false));
   })
 );
 

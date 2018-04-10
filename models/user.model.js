@@ -13,7 +13,7 @@ const db = require('../db');
 async function create(user) {
   const collection = db.collection('users');
 
-  const existingUser = await getUserByEmail(user.email);
+  const existingUser = await findUser({ email: user.email });
   if (existingUser) throw new Error('user error - email already in use. unable to create user');
 
   const salt = await bcrypt.genSalt(10);
@@ -31,12 +31,13 @@ async function create(user) {
   return ops[0];
 }
 
-async function getUserByEmail(email) {
+async function findUser(searchParams) {
   const collection = db.collection('users');
 
-  return await collection.findOne({ email });
+  return await collection.findOne(searchParams);
 }
 
 module.exports = {
-  create
+  create,
+  findUser
 };

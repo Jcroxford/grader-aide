@@ -1,9 +1,12 @@
 const router = require('express').Router();
+const passport = require('passport');
+
+const requireLogin = passport.authenticate('local', { session: false });
 
 const User = require('../models/user.model');
 const jwtUtils = require('../utils/jwt');
 
-router.post('/create', (req, res) => {
+router.post('/signup', (req, res) => {
   const user = req.body;
   // validate fields exist (primitive validation for now)
   // todo to we want to take this past primitive?
@@ -32,6 +35,14 @@ router.post('/create', (req, res) => {
           'unable to complete your request. check the code if you are an approved member of the team'
       });
     });
+});
+
+router.post('/login', requireLogin, (req, res) => {
+  res.json({
+    success: true,
+    message: 'user login successfully',
+    token: jwtUtils.generateJWT(req.user)
+  });
 });
 
 module.exports = router;
