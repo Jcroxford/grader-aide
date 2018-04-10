@@ -7,12 +7,17 @@ const cors = require('cors');
 
 // controllers/routes
 const assignmentRouter = require('./routes/assignment.routes.js');
+const authRouter = require('./routes/auth.routes');
+const userRouter = require('./routes/user.routes');
 
 // db
 const db = require('./db');
 
 // load .env variables
 require('./config/config');
+
+// auth middleware
+const passport = require('./services/passport');
 
 let app = express();
 
@@ -21,9 +26,12 @@ app.use(helmet());
 app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(passport.initialize());
 app.use(express.static('public'));
 
 // routes
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
 app.use('/api', assignmentRouter);
 
 const port = process.env.PORT || 3001;

@@ -8,10 +8,10 @@ function log(data) {
   return data;
 }
 
-router.get('/assignments', function(req, res) {
+router.get('/assignments', function(req, res, next) {
   Assignments.getAssignments()
     .then(res.json.bind(res))
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
 
       res.status(500).json({
@@ -24,12 +24,12 @@ router.get('/assignments/:id', (req, res) => {
   const { id } = req.params;
 
   Assignments.getAssignmentById(id)
-    .then((assignment) => {
+    .then(assignment => {
       if (!assignment) res.status(400).json({ error: 'assignment at given id does not exist' });
 
       res.json(assignment);
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
 
       res.status(500).json({
@@ -40,10 +40,10 @@ router.get('/assignments/:id', (req, res) => {
 
 router.post('/assignments', (req, res) => {
   Assignments.createAssignment(req.body)
-    .then((assignmentId) => {
+    .then(assignmentId => {
       res.json({ assignmentId });
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
 
       res.status(500).json({
@@ -57,7 +57,7 @@ router.delete('/assignments/:id', (req, res) => {
 
   Assignments.destroyAssignment(id)
     .then(log)
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
 
       res.status(500).json({
@@ -71,7 +71,7 @@ router.put('/assignments/:id', (req, res) => {
 
   Assignments.udpateAssignmentById(id, req.body)
     .then(() => res.status(204).send())
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
 
       res.status(500).json({
