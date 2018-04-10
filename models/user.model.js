@@ -4,6 +4,7 @@
  * @param {string} username
  * @param {string} email - unique
  * @param {string} password
+ * @param {string} type - can be student or admin defaults to student for now admin needs to be hard changed in the db
  * @param {string} studentId
  */
 // todo add tsconfig file for our vscode editors to benefit from typescript linting?
@@ -21,6 +22,7 @@ async function create(user) {
 
   const userWithHash = {
     ...user,
+    type: 'student',
     password: hash
   };
 

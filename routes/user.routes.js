@@ -3,6 +3,10 @@ const passport = require('passport');
 
 const requireLogin = passport.authenticate('local', { session: false });
 
+// fixme example code for using jwt auth. leaving here for now but needs to be removed if we end using it somehwere else
+// we probably want a controller rapper for checking for student or admin types
+const requireAuth = passport.authenticate('jwt', { session: false });
+
 const User = require('../models/user.model');
 const jwtUtils = require('../utils/jwt');
 
@@ -19,6 +23,10 @@ router.post('/signup', (req, res) => {
 
   delete user.confirmPassword; // no longer needed after validated and we dont want to save it do db
   User.create(user)
+    .then(user => {
+      console.log(user);
+      return user;
+    })
     .then(jwtUtils.generateJWT)
     .then(token => {
       res.json({
