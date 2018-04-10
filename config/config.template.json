@@ -1,0 +1,8 @@
+{
+  "development": {
+    "PORT": 3000,
+    "MONGODB_URI": "mongodb://USERNAME:PASSWORD@ds215388.mlab.com:15388/grader-aide-dev",
+    "JWT_SECRET": "its working....its working"
+  },
+  "test": {}
+}
