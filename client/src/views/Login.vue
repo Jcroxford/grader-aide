@@ -131,8 +131,11 @@ export default {
       passwordRules: [v => !!v || 'Password is required'],
       hidePassword: true,
       hideConfirmPassword: true,
-      confirmPasswordRules: [v => !!v || 'Confirm Password is required'],
-      confirmPassword: ''
+      confirmPassword: '',
+      confirmPasswordRules: [
+        v => !!v || 'Confirm Password is required',
+        v => v === this.password || 'Passwords do not match'
+      ]
     };
   },
   methods: {
