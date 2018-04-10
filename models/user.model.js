@@ -1,8 +1,8 @@
 /**
  * This is how a user looks
  * @param {string} _id - unique
- * @param {string} username
- * @param {string} email - unique
+ * @param {string} name
+ * @param {string} email- unique
  * @param {string} password
  * @param {string} type - can be student or admin defaults to student for now admin needs to be hard changed in the db
  * @param {string} studentId

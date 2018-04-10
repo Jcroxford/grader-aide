@@ -14,7 +14,7 @@ router.post('/signup', (req, res) => {
   const user = req.body;
   // validate fields exist (primitive validation for now)
   // todo to we want to take this past primitive?
-  if (!user.username) return res.status(400).json({ error: 'username is required' });
+  if (!user.name) return res.status(400).json({ error: 'name is required' });
   if (!user.password) return res.status(400).json({ error: 'password is required' });
   if (!user.confirmPassword) return res.status(400).json({ error: 'confirmPassword is required' });
   if (!user.email) return res.status(400).json({ error: 'email is required' });
