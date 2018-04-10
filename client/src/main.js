@@ -19,6 +19,8 @@ import {
   VDataTable,
   VTextField,
   VTooltip,
+  VTabs,
+  VForm,
   transitions
 } from 'vuetify';
 
@@ -48,6 +50,8 @@ Vue.use(Vuetify, {
     VDataTable,
     VTextField,
     VTooltip,
+    VTabs,
+    VForm,
     transitions
   }
 });
