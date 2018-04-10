@@ -21,6 +21,7 @@ import {
   VTooltip,
   VTabs,
   VForm,
+  VSnackbar,
   transitions
 } from 'vuetify';
 
@@ -52,6 +53,7 @@ Vue.use(Vuetify, {
     VTooltip,
     VTabs,
     VForm,
+    VSnackbar,
     transitions
   }
 });

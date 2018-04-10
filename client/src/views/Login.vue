@@ -113,10 +113,20 @@
       </v-flex>
     </v-layout>
   </div>
+      <v-snackbar
+      :timeout="5000"
+      bottom
+      v-model="snackbar"
+    >
+      {{ snackthat }}
+    </v-snackbar>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+import * as jwt from 'jsonwebtoken';
+
 export default {
   data() {
     return {
@@ -135,15 +145,47 @@ export default {
       confirmPasswordRules: [
         v => !!v || 'Confirm Password is required',
         v => v === this.password || 'Passwords do not match'
-      ]
+      ],
+      snackbar: false,
+      timeout: 5000,
+      snackthat: 'Unable to login. Please try again.'
     };
   },
   methods: {
     login() {
-      // todo wire up actual login shit
+      const self = this;
+      axios
+        .post('http://localhost:3000/api/auth/login', {
+          email: self.email,
+          password: self.password
+        })
+        .then(response => self.onAuthSuccess(response.data.token))
+        .catch(self.onError);
     },
     register() {
-      // todo wire up actual register shit
+      const self = this;
+      axios
+        .post('http://localhost:3000/api/auth/signup', {
+          name: self.name,
+          email: self.email,
+          password: self.password,
+          confirmPassword: self.confirmPassword
+        })
+        .then(response => self.onAuthSuccess(response.data.token))
+        .catch(self.onError);
+    },
+    onAuthSuccess(token) {
+      window.localStorage.setItem('authorization', token);
+      const decoded = jwt.decode(token);
+      // console.log('decoded: ', decoded);
+      if (decoded.type === 'student') return this.$router.push({ path: '/user/welcome' });
+      if (decoded.type === 'admin') return this.$router.push({ path: '/admin/welcome' });
+      self.snackbar = true;
+      return 'Unable to authenticate. Please try again.';
+    },
+    onError() {
+      this.snackbar = true;
+      return 'Unable to authenticate. Please try again.';
     }
   },
   computed: {}
