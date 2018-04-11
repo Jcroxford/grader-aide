@@ -177,10 +177,11 @@ export default {
     onAuthSuccess(token) {
       window.localStorage.setItem('authorization', token);
       const decoded = jwt.decode(token);
-      // console.log('decoded: ', decoded);
+
       if (decoded.type === 'student') return this.$router.push({ path: '/user/welcome' });
       if (decoded.type === 'admin') return this.$router.push({ path: '/admin/welcome' });
       self.snackbar = true;
+
       return 'Unable to authenticate. Please try again.';
     },
     onError() {

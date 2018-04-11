@@ -24,7 +24,6 @@ router.post('/signup', (req, res) => {
   delete user.confirmPassword; // no longer needed after validated and we dont want to save it do db
   User.create(user)
     .then(user => {
-      console.log(user);
       return user;
     })
     .then(jwtUtils.generateJWT)
