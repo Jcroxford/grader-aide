@@ -1,33 +1,23 @@
-import { decode } from 'jsonwebtoken';
+import { getUserAuthType } from '@/utils/checkAuth';
 
 export function isStudentGaurd(to, from, next) {
-  const token = window.localStorage.getItem('authorization');
+  const type = getUserAuthType();
 
-  if (!token) return next('/login');
-
-  const { type } = decode(token);
   if (type === 'student') return next();
 
   return next('/login');
 }
 
 export function isAdminGaurd(to, from, next) {
-  const token = window.localStorage.getItem('authorization');
+  const type = getUserAuthType();
 
-  if (!token) return next('/login');
-
-  const { type } = decode(token);
   if (type === 'admin') return next();
 
   return next('/login');
 }
 
 export function isLoggedInGuard(to, from, next) {
-  const token = window.localStorage.getItem('authorization');
-
-  if (!token) return next();
-
-  const { type } = decode(token);
+  const type = getUserAuthType();
   switch (type) {
     case 'student':
       return next('/student');
