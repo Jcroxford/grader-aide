@@ -2,18 +2,17 @@
   <div>
     <v-toolbar dark color="green" absolute>
       <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
-      <v-toolbar-title class="clickable">Grader-Aide</v-toolbar-title>
+      <v-toolbar-title class="clickable" @click="navigateHome">Grader-Aide</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat>View Submissions</v-btn>
-        <v-btn flat>All Assignments</v-btn>
-        <v-btn flat v-if="isAuthenticated">Login</v-btn>
-        <v-btn flat v-else>Logout</v-btn>
+        <v-btn flat v-if="isAdmin">All Assignments</v-btn>
+        <v-btn flat v-if="isStudent">View Submissions</v-btn>
+        <v-btn flat v-if="isAuthenticated" @click="destrouAuthToken">Logout</v-btn>
+        <v-btn flat v-else>Login</v-btn>
       </v-toolbar-items>
     </v-toolbar>
   </div>
 </template>
-
 
 <script>
 import { getUserAuthType } from '@/utils/checkAuth';
@@ -30,6 +29,16 @@ export default {
       const type = getUserAuthType();
 
       this.authType = type;
+    },
+    destrouAuthToken() {
+      const token = window.localStorage.getItem('authorization');
+      if (!token) return;
+
+      window.localStorage.removeItem('authorization');
+      this.$router.push({ path: '/login' });
+    },
+    navigateHome() {
+      this.$router.push({ path: '/' });
     }
   },
   computed: {
