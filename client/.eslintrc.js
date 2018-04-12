@@ -53,6 +53,7 @@ module.exports = {
     'comma-dangle': ['error', 'never'],
     'no-param-reassign': 0,
     'space-before-function-paren': 0,
-    'import/prefer-default-export': 0
+    'import/prefer-default-export': 0,
+    'no-return-assign': 0
   }
 };
