@@ -178,8 +178,8 @@ export default {
       window.localStorage.setItem('authorization', token);
       const decoded = jwt.decode(token);
 
-      if (decoded.type === 'student') return this.$router.push({ path: '/user/welcome' });
-      if (decoded.type === 'admin') return this.$router.push({ path: '/admin/welcome' });
+      if (decoded.type === 'student') return this.$router.push({ path: '/student' });
+      if (decoded.type === 'admin') return this.$router.push({ path: '/grade-assignment' });
       self.snackbar = true;
 
       return 'Unable to authenticate. Please try again.';
