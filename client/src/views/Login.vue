@@ -23,7 +23,7 @@
             >
               <v-card flat>
               <v-card-text>
-                <v-form ref="form" lazy-validation>
+                <v-form ref="login" lazy-validation @submit.prevent="login">
                   <v-text-field
                     label="E-mail"
                     v-model="email"
@@ -44,6 +44,7 @@
                     @click="login"
                     class="centered"
                     color="success"
+                    type="submit"
                   >
                   Login
                   </v-btn>
@@ -62,7 +63,7 @@
             >
               <v-card flat>
               <v-card-text>
-                <v-form ref="form" lazy-validation>
+                <v-form ref="signup" lazy-validation @submit.prevent="login">
                   <v-text-field
                     label="Full Name"
                     v-model="name"
@@ -98,6 +99,7 @@
                     @click="register"
                     class="centered"
                     color="success"
+                    type="submit"
                   >
                   Register
                   </v-btn>
