@@ -101,7 +101,7 @@
                     color="success"
                     type="submit"
                   >
-                  Register
+                    Register
                   </v-btn>
                 </v-form>
               </v-card-text>
@@ -186,7 +186,7 @@ export default {
 
       return 'Unable to authenticate. Please try again.';
     },
-    onError(e) {
+    onError() {
       this.snackbar = true;
       return 'Unable to authenticate. Please try again.';
     }
