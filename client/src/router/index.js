@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import GradeAssignment from '@/views/GradeAssignment';
 import Login from '@/views/Login';
 import StudentPlaceholder from '@/views/StudentPlaceholder';
+import AssignmentList from '@/views/AssignmentList';
 
 import * as routeGaurds from './gaurds';
 
@@ -27,7 +28,12 @@ export default new Router({
       component: StudentPlaceholder
     },
     {
-      path: '/grade-assignment',
+      path: '/assignments',
+      beforeEnter: routeGaurds.isAdminGaurd,
+      component: AssignmentList
+    },
+    {
+      path: '/grade-assignment/:assignmentId',
       name: 'GradeAssignment',
       beforeEnter: routeGaurds.isAdminGaurd,
       component: GradeAssignment

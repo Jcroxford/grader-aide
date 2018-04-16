@@ -185,9 +185,6 @@ import EditAssignmentModal from '@/components/EditAssignmentModal';
 import * as AssignmentAPI from '@/apis/assignment-api.js';
 
 export default {
-  created() {
-    console.log(process.env.NODE_ENV);
-  },
   data() {
     return {
       // persistant data
@@ -337,18 +334,15 @@ export default {
   },
   created() {
     let self = this;
+    const { assignmentId } = this.$route.params;
 
-    AssignmentAPI.getAssignments(function(response) {
-      self.allAssignments = response;
-      AssignmentAPI.getAssignment(self.allAssignments[0]._id, function(res) {
-        //console.log('res: ', res);
-        //fill view with valid data from first object returned from line above.
-        self.assignmentID = res._id;
-        self.assignmentName = res.assignmentName;
-        self.totalPts = res.totalPts;
-        self.rules = res.rules;
-        self.comments = res.comments;
-      });
+    AssignmentAPI.getAssignment(assignmentId, function(res) {
+      //fill view with valid data from first object returned from line above.
+      self.assignmentID = res._id;
+      self.assignmentName = res.assignmentName;
+      self.totalPts = res.totalPts;
+      self.rules = res.rules;
+      self.comments = res.comments;
     });
   },
   components: {
