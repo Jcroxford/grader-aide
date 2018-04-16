@@ -186,7 +186,7 @@ export default {
 
       return 'Unable to authenticate. Please try again.';
     },
-    onError() {
+    onError(e) {
       this.snackbar = true;
       return 'Unable to authenticate. Please try again.';
     }
