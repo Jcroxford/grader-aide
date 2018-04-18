@@ -3,7 +3,7 @@
     <nav-bar></nav-bar>
     <div id="app">
       <transition name="slide" mode="out-in">
-        <router-view/>
+        <router-view :key="$route.path" />
       </transition>
     </div>
   </v-app>
