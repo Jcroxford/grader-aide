@@ -2,12 +2,6 @@ const router = require('express').Router();
 
 const Assignments = require('../models/assignments.model');
 
-// fixme just for dev. can be removed when finished
-function log(data) {
-  console.log(data);
-  return data;
-}
-
 router.get('/assignments', function(req, res, next) {
   Assignments.getAssignments()
     .then(res.json.bind(res))
