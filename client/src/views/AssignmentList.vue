@@ -9,29 +9,29 @@
                 <span class="display-1">{{ assignment.assignmentName }}</span>
                   </v-flex>
 
-                <v-flex 
-                xs4 
+                <v-flex
+                xs4
                 >
                   <div class="assn-card-text">
                     Total points: 69
                   </div>
                 </v-flex>
-                <v-flex 
-                xs4 
+                <v-flex
+                xs4
                 >
                   <div class="assn-card-text">
                     Class Average: 69%
                   </div>
                 </v-flex>
-                <v-flex 
-                xs4 
+                <v-flex
+                xs4
                 >
                   <div class="assn-card-text">
                     Due Date: 6/9/1969
                   </div>
                 </v-flex>
 
-                <v-flex 
+                <v-flex
                 offset-xs9
                 align-content-space-between
                 >
@@ -83,7 +83,7 @@ export default {
       this.$router.push(`/grade-assignment/${id}`);
     },
     createAssignment() {
-      this.$router.push(`/grade-assignment/new`);
+      this.$router.push('/grade-assignment/new');
     }
   },
   created() {
