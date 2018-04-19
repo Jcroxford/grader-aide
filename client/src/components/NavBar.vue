@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div  class="nav-bottom-offest">
     <v-toolbar dark color="green" absolute>
       <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
       <v-toolbar-title class="clickable" @click="navigateHome">Grader-Aide</v-toolbar-title>
@@ -63,8 +63,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .clickable {
   cursor: pointer;
+}
+
+.nav-bottom-offest {
+  margin-bottom: 25px;
 }
 </style>
