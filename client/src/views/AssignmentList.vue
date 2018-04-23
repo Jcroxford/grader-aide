@@ -32,7 +32,7 @@
                 </v-flex>
 
                 <v-flex
-                offset-xs9
+                offset-xs8
                 align-content-space-between
                 >
                 <v-btn
@@ -41,6 +41,13 @@
                   @click="navigateToAssignment(assignment._id)"
                 >
                   view Assignment
+                </v-btn>
+                <v-btn
+                  flat
+                  color="red"
+                  @click="deleteAssignment(assignment._id)"
+                >
+                  Delete
                 </v-btn>
               </v-flex>
             </v-card-title>
@@ -66,6 +73,14 @@
         </v-btn>
       <span>Create assignment</span>
     </v-tooltip>
+    <v-snackbar
+      :timeout="timeout"
+      bottom
+      v-model="snackbar"
+    >
+      {{ deletedAssignment }}
+    <v-btn color="yellow" dark flat @click.native="snackbar = false">Undo</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -75,12 +90,21 @@ import * as assignemntApi from '@/apis/assignment-api';
 export default {
   data() {
     return {
-      assignments: []
+      assignments: [],
+      snackbar: false,
+      timeout: 5000,
+      deletedAssignment: '',
+      deletionStack: []
     };
   },
   methods: {
     navigateToAssignment(id) {
       this.$router.push(`/grade-assignment/${id}`);
+    },
+    deleteAssignment(id) {
+      this.deletionStack.push(id);
+      this.deletedAssignment = 'Deleted assignment.';
+      this.snackbar = true;
     },
     createAssignment() {
       this.$router.push('/create-assignment/');
