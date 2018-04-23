@@ -104,10 +104,6 @@ export default {
   max-width: 75%;
 }
 
-.assn-card-text {
-  /* padding-left: 15px; */
-}
-
 .fab-button {
   margin-right: 35px;
   margin-bottom: 35px;
