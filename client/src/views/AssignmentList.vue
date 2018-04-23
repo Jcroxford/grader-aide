@@ -83,7 +83,7 @@ export default {
       this.$router.push(`/grade-assignment/${id}`);
     },
     createAssignment() {
-      this.$router.push('/grade-assignment/new');
+      this.$router.push('/create-assignment/');
     }
   },
   created() {
