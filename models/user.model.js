@@ -7,6 +7,7 @@
  * @param {string} type - can be student or admin defaults to student for now admin needs to be hard changed in the db
  * @param {string} studentId
  */
+// fixme user needs array of courses
 // todo add tsconfig file for our vscode editors to benefit from typescript linting?
 const bcrypt = require('bcryptjs');
 const db = require('../db');
