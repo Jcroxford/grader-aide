@@ -2,9 +2,10 @@
   <div class="assignment-container main-background">
     <v-layout>
         <v-flex xs12 sm8 offset-sm2>
-        <v-card>
-            <!-- <v-card-title primary-title>
-            </v-card-title> -->
+        <v-card class="navbar-offset">
+            <v-card-title primary-title >
+                <h3 class="display-2 grey--text text--darken-3">Create Assignment</h3>
+            </v-card-title>
                 <v-card-text>
                     <v-form>
                             <v-text-field
@@ -291,5 +292,9 @@ export default {
 }
 .custom-textfield {
   width: 800px !important;
+}
+
+.navbar-offset {
+  margin-top: 50px;
 }
 </style>
