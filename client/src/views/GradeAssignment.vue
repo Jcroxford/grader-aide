@@ -378,5 +378,6 @@ export default {
   align-items: center;
   min-height: min-content;
   position: relative;
+  margin-top: 35px;
 }
 </style>
