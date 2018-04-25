@@ -1,5 +1,7 @@
 <template>
   <div class="assignment-container main-background">
+    <div class="navbar-offset">
+
     <!-- popup for editing an assignment's rules and comments -->
     <edit-assignment-modal
       v-if="displayEdit"
@@ -176,6 +178,7 @@
         </v-flex>
       </v-layout>
     </v-container>
+    </div>
   </div>
 </template>
 
@@ -371,12 +374,18 @@ export default {
 }
 
 .assignment-container {
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: min-content;
   position: relative;
+}
+.navbar-offset {
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  /* max-height: 100vh;
+  height: 100%; */
 }
 </style>

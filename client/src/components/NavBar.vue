@@ -5,7 +5,7 @@
       <v-toolbar-title class="clickable" @click="navigateHome">Grader-Aide</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat v-if="isAdmin">All Assignments</v-btn>
+        <v-btn flat @click="navigateHome" v-if="isAdmin">All Assignments</v-btn>
         <v-btn flat v-if="isStudent">View Submissions</v-btn>
         <v-btn flat v-if="isAuthenticated" @click="destrouAuthToken">Logout</v-btn>
         <v-btn flat v-else>Login</v-btn>
