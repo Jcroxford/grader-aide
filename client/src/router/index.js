@@ -3,9 +3,11 @@ import Router from 'vue-router';
 
 import GradeAssignment from '@/views/GradeAssignment';
 import CreateAssignment from '@/views/CreateAssignment';
+import CreateCourse from '@/views/CreateCourse';
 import Login from '@/views/Login';
 import StudentPlaceholder from '@/views/StudentPlaceholder';
 import AssignmentList from '@/views/AssignmentList';
+import CourseList from '@/views/CourseList';
 
 import * as routeGaurds from './gaurds';
 
@@ -29,7 +31,12 @@ export default new Router({
       component: StudentPlaceholder
     },
     {
-      path: '/assignments',
+      path: '/courses',
+      beforeEnter: routeGaurds.isAdminGaurd,
+      component: CourseList
+    },
+    {
+      path: '/assignments/:courseID',
       beforeEnter: routeGaurds.isAdminGaurd,
       component: AssignmentList
     },
@@ -38,6 +45,12 @@ export default new Router({
       name: 'GradeAssignment',
       beforeEnter: routeGaurds.isAdminGaurd,
       component: GradeAssignment
+    },
+    {
+      path: '/create-course',
+      name: 'CreateCourse',
+      beforeEnter: routeGaurds.isAdminGaurd,
+      component: CreateCourse
     },
     {
       path: '/create-assignment',

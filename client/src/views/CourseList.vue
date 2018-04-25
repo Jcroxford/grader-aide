@@ -1,20 +1,20 @@
 <template>
   <div >
-    <div v-if="assignmentsExist" class="nav-offset container width-restrictor">
+    <div v-if="coursesExist" class="nav-offset container width-restrictor">
       <v-container grid-list-md>
         <v-layout row wrap>
-          <v-flex xs12 v-for="assignment of assignments" :key="assignment._id">
+          <v-flex xs12 v-for="course of courses" :key="course._id">
             <v-card>
               <v-card-title>
                 <v-flex xs12>
-                  <span class="display-1">{{ assignment.assignmentName }}</span>
+                  <span class="display-1">{{ course.courseName }}</span>
                     </v-flex>
 
                   <v-flex
                   xs4
                   >
                     <div class="assn-card-text">
-                      Total points: 69
+                      Total students enrolled: 9001
                     </div>
                   </v-flex>
                   <v-flex
@@ -39,14 +39,14 @@
                   <v-btn
                     flat
                     color="green"
-                    @click="navigateToAssignment(assignment._id)"
+                    @click="navigateToCourse(course._id)"
                   >
-                    view Assignment
+                    view Course
                   </v-btn>
                   <v-btn
                     flat
                     color="red"
-                    @click="deleteAssignment(assignment._id)"
+                    @click="deleteCourse(course._id)"
                   >
                     Delete
                   </v-btn>
@@ -64,12 +64,12 @@
         bottom
         v-model="snackbar"
       >
-        {{ deletedAssignment }}
+        {{ deletedCourse }}
       <v-btn color="yellow" dark flat @click.native="snackbar = false">Undo</v-btn>
       </v-snackbar>
     </div>
-    <div v-if="!assignmentsExist">
-      <h1 class="no-assignments display-1">No assignments exist for this course.
+    <div v-if="!coursesExist">
+      <h1 class="no-courses display-1">You don't have any courses set up!
         <br> Please create one by clicking the button below.</h1>
     </div>
     <v-tooltip left>
@@ -82,11 +82,11 @@
           fixed
           slot="activator"
           class="fab-button"
-          @click="createAssignment"
+          @click="createCourse"
         >
           <v-icon color="white">add</v-icon>
         </v-btn>
-      <span>Create assignment</span>
+      <span>Create course</span>
     </v-tooltip>
   </div>
 
@@ -98,32 +98,32 @@ import * as assignmentApi from '@/apis/assignment-api';
 export default {
   data() {
     return {
-      assignments: [],
+      courses: [],
       snackbar: false,
       timeout: 5000,
-      deletedAssignment: '',
+      deletedcourse: '',
       deletionStack: [],
-      assignmentsExist: true
+      coursesExist: true
     };
   },
   methods: {
-    navigateToAssignment(id) {
-      this.$router.push(`/grade-assignment/${id}`);
+    navigateToCourse(id) {
+      this.$router.push(`/courses/${id}`);
     },
-    deleteAssignment(id) {
+    deleteCourse(id) {
       this.deletionStack.push(id);
-      this.deletedAssignment = 'Deleted assignment.';
+      this.deletedCourse = 'Deleted course.';
       this.snackbar = true;
     },
-    createAssignment() {
-      this.$router.push('/create-assignment/');
+    createCourse() {
+      this.$router.push('/create-course/');
     }
   },
   created() {
     const self = this;
-    assignmentApi.getAssignments(assignments => {
-      if (assignments.length === 0) self.assignmentsExist = false;
-      self.assignments = assignments;
+    assignmentApi.getAssignments(courses => {
+      if (courses.length === 0) self.coursesExist = false;
+      self.courses = courses;
     });
   }
 };
@@ -147,7 +147,7 @@ export default {
   margin-bottom: 35px;
 }
 
-.no-assignments {
+.no-courses {
   text-align: center;
   margin-top: 40vh;
 }
