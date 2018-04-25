@@ -385,7 +385,5 @@ export default {
 .navbar-offset {
   margin-top: 10vh;
   margin-bottom: 10vh;
-  /* max-height: 100vh;
-  height: 100%; */
 }
 </style>
