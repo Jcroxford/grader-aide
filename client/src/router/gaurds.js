@@ -23,7 +23,7 @@ export function isLoggedInGuard(to, from, next) {
       return next('/student');
 
     case 'admin':
-      return next('/assignments');
+      return next('/courses');
 
     default:
       return next();

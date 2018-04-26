@@ -2,6 +2,18 @@ const router = require('express').Router();
 
 const Courses = require('../models/courses.model');
 
+router.post('/courses', (req, res) => {
+  Courses.createCourse(req.body)
+    .then(_id => {
+      res.json({ _id });
+    })
+    .catch(err => {
+      console.log(err);
+
+      res.status(500).json({ error: 'unable to create assignment' });
+    });
+});
+
 router.get('/courses', function(req, res, next) {
   Courses.preview()
     .then(res.json.bind(res))
@@ -25,18 +37,6 @@ router.get('/courses/:id', (req, res) => {
       console.log(err);
 
       res.status(500).json({ error: 'server error occured while trying to retrieve courses' });
-    });
-});
-
-router.post('/courses', (req, res) => {
-  Courses.createCourse(req.body)
-    .then(_id => {
-      res.json({ _id });
-    })
-    .catch(err => {
-      console.log(err);
-
-      res.status(500).json({ error: 'unable to create assignment' });
     });
 });
 
@@ -65,6 +65,20 @@ router.put('/courses/:id', (req, res) => {
       res.status(500).json({
         error: 'unable to udpate assignment'
       });
+    });
+});
+
+//assignment create @ courseId
+router.post('/course/:courseId/assignment', (req, res) => {
+  const { courseId } = req.params;
+  Courses.createAssignment(courseId, req.body)
+    .then(_id => {
+      res.json({ _id });
+    })
+    .catch(err => {
+      console.log(err);
+
+      res.status(500).json({ error: 'unable to create assignment' });
     });
 });
 

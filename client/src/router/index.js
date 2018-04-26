@@ -36,7 +36,7 @@ export default new Router({
       component: CourseList
     },
     {
-      path: '/assignments/:courseID',
+      path: '/courses/:courseID/assignments',
       beforeEnter: routeGaurds.isAdminGaurd,
       component: AssignmentList
     },

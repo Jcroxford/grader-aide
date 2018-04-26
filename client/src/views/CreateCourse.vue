@@ -38,7 +38,7 @@
 
 <script>
 /* eslint-disable */
-import * as AssignmentAPI from '@/apis/assignment-api.js';
+import * as CourseAPI from '@/apis/course-api.js';
 
 import { ObjectId } from 'bson';
 
@@ -54,12 +54,12 @@ export default {
     createCourse() {
       let self = this;
       let newCourse = {
-        courseId: this.courseId,
-        courseName: this.courseName
+        courseName: self.courseName,
+        courseId: self.courseId
       };
 
-      AssignmentAPI.createAssignment(newCourse, function(res) {
-        self.$router.push(`/assignments/${res.courseId}`);
+      CourseAPI.createCourse(newCourse, function(res) {
+        self.$router.push(`/courses`);
       });
     },
     deepCopy(arr) {

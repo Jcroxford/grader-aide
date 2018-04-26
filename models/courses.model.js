@@ -22,7 +22,7 @@ function preview() {
 
   return collection
     .find({})
-    .project({ name: 1 })
+    .project({ courseName: 1, courseId: 1 })
     .toArray();
 }
 

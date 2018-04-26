@@ -7,6 +7,7 @@ const cors = require('cors');
 
 // controllers/routes
 const assignmentRouter = require('./routes/assignment.routes.js');
+const courseRouter = require('./routes/course.routes.js');
 const authRouter = require('./routes/auth.routes');
 
 // db
@@ -30,7 +31,7 @@ app.use(express.static('public'));
 
 // routes
 app.use('/api/auth', authRouter);
-app.use('/api', assignmentRouter);
+app.use('/api', courseRouter);
 
 const port = process.env.PORT || 3001;
 

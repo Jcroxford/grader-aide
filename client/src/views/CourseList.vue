@@ -7,7 +7,7 @@
             <v-card>
               <v-card-title>
                 <v-flex xs12>
-                  <span class="display-1">{{ course.courseName }}</span>
+                  <span class="display-1">{{ course.courseId }} - {{ course.courseName }}</span>
                     </v-flex>
 
                   <v-flex
@@ -15,20 +15,6 @@
                   >
                     <div class="assn-card-text">
                       Total students enrolled: 9001
-                    </div>
-                  </v-flex>
-                  <v-flex
-                  xs4
-                  >
-                    <div class="assn-card-text">
-                      Class Average: 69%
-                    </div>
-                  </v-flex>
-                  <v-flex
-                  xs4
-                  >
-                    <div class="assn-card-text">
-                      Due Date: 6/9/1969
                     </div>
                   </v-flex>
 
@@ -93,7 +79,7 @@
 </template>
 
 <script>
-import * as assignmentApi from '@/apis/assignment-api';
+import * as courseApi from '@/apis/course-api';
 
 export default {
   data() {
@@ -101,7 +87,7 @@ export default {
       courses: [],
       snackbar: false,
       timeout: 5000,
-      deletedcourse: '',
+      deletedCourse: '',
       deletionStack: [],
       coursesExist: true
     };
@@ -121,7 +107,7 @@ export default {
   },
   created() {
     const self = this;
-    assignmentApi.getAssignments(courses => {
+    courseApi.getCourses(courses => {
       if (courses.length === 0) self.coursesExist = false;
       self.courses = courses;
     });
