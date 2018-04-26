@@ -3,7 +3,7 @@
     <div v-if="coursesExist" class="nav-offset container width-restrictor">
       <v-container grid-list-md>
         <v-layout row wrap>
-          <v-flex xs8 offset-xs2 v-for="course of courses" :key="course._id">
+          <v-flex xs10 offset-xs1 v-for="course of courses" :key="course._id">
             <v-card>
               <v-card-title>
                 <v-flex xs12>
@@ -19,7 +19,7 @@
                   </v-flex>
 
                   <v-flex
-                  offset-xs8
+                  offset-xs7
                   align-content-space-between
                   >
                   <v-btn
