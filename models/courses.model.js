@@ -28,8 +28,6 @@ function preview() {
 
 function findById(_id) {
   const collection = db.collection('courses');
-  // const id = ObjectId(_id);
-  console.log('id: ', typeof _id);
 
   return collection.findOne({ _id });
 }
@@ -44,13 +42,20 @@ function createCourse(course) {
   });
 }
 
+// edit a course by id
+// todo needed or nah?
 // function editCourse(courseId, updates) {
 //   const collection = db.collection('courses')
 
-//   return collection.updateOne({ _id: })
+//   return collection.updateOne({ _id: courseId }, updates)
 // }
-// edit a course by id
+
 // delete a course
+function destroyCourse(_id) {
+  const collection = db.collection('courses');
+
+  return collection.deleteOne({ _id }).then(({ deletedCount }) => deletedCount);
+}
 // add assigment to a course
 // update an assignment in a course
 // delete an assignment from a acourse
@@ -62,5 +67,6 @@ function createCourse(course) {
 module.exports = {
   preview,
   findById,
-  createCourse
+  createCourse,
+  destroyCourse
 };
