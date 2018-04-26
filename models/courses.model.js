@@ -50,13 +50,19 @@ function createCourse(course) {
 //   return collection.updateOne({ _id: courseId }, updates)
 // }
 
-// delete a course
 function destroyCourse(_id) {
   const collection = db.collection('courses');
 
   return collection.deleteOne({ _id }).then(({ deletedCount }) => deletedCount);
 }
-// add assigment to a course
+
+function createAssignment(courseId, assignment) {
+  const collection = db.collection('courses');
+
+  return collection
+    .findOneAndUpdate({ _id: courseId }, { $push: { assignments: assignment } })
+    .then(({ ok }) => ok);
+}
 // update an assignment in a course
 // delete an assignment from a acourse
 // get all assignments for a course (name and id only?)
@@ -68,5 +74,6 @@ module.exports = {
   preview,
   findById,
   createCourse,
-  destroyCourse
+  destroyCourse,
+  createAssignment
 };

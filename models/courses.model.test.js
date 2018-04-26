@@ -134,4 +134,38 @@ describe('courses.models.js', () => {
         .then(courses => expect(courses.length).toBe(premadeCourses.length));
     });
   });
+
+  describe('createAssignment()', () => {
+    const expectedAssignment = {
+      _id: new ObjectId(),
+      name: 'minimal example assignemnt'
+    };
+    it('adds an assignment to assignments array of a course', () => {
+      const courseId = premadeCourses[0]._id;
+
+      return courses
+        .createAssignment(courseId, expectedAssignment)
+        .then(() => {
+          return collection.findOne({ _id: courseId });
+        })
+        .then(course => {
+          const assignment = course.assignments.pop();
+          expect(assignment).toEqual(expectedAssignment);
+        });
+    });
+
+    it(`adds assignment while creating assignments key if it doesn't exist`, () => {
+      // this course does/should not have any assignments in it
+      const courseId = premadeCourses[2]._id;
+
+      return courses
+        .createAssignment(courseId, expectedAssignment)
+        .then(() => {
+          return collection.findOne({ _id: courseId });
+        })
+        .then(course => {
+          expect(course).toHaveProperty('assignments', [expectedAssignment]);
+        });
+    });
+  });
 });
