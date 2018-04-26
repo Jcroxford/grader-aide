@@ -63,7 +63,24 @@ function createAssignment(courseId, assignment) {
     .findOneAndUpdate({ _id: courseId }, { $push: { assignments: assignment } })
     .then(({ ok }) => ok);
 }
-// update an assignment in a course
+
+// required entire assignment atm
+function updateAssignment(courseId, assignmentId, updatedAssignment) {
+  const collection = db.collection('courses');
+
+  const match = {
+    _id: courseId,
+    'assignments._id': assignmentId
+  };
+
+  const updates = {
+    $set: {
+      'assignments.$': updatedAssignment
+    }
+  };
+
+  return collection.findOneAndUpdate(match, updates).then(({ ok }) => ok);
+}
 // delete an assignment from a acourse
 // get all assignments for a course (name and id only?)
 // get a signle assingment from a course by id for both assignment and course
@@ -75,5 +92,6 @@ module.exports = {
   findById,
   createCourse,
   destroyCourse,
-  createAssignment
+  createAssignment,
+  updateAssignment
 };
