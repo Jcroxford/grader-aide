@@ -132,7 +132,7 @@ export default {
 <style scoped>
 .main-background {
   /* background: linear-gradient(rgb(76, 175, 80) 50%, rgb(248, 250, 248) 0%); */
-  background-color: rgb(240, 255, 240);
+  background-color: rgb(245, 250, 245);
   position: fixed;
   background-attachment: fixed;
   width: 100%;
