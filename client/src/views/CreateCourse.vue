@@ -7,27 +7,23 @@
                 <h3 class="display-2 grey--text text--darken-3">Create Course</h3>
             </v-card-title>
                 <v-card-text>
-                    <v-form>
-                            <v-text-field
-                            name="courseName"
-                            label="Name (e.g. 'Web 3')"
-                            v-model="courseName"
-                            single-line
-                            required
-                            ></v-text-field>
-                            <v-text-field
-                            name="courseId"
-                            label="ID (e.g. 'CS 4690')"
-                            v-model="courseId"
-                            single-line
-                            required
-                            @keyup.enter="createCourse"
-                            ></v-text-field>
-
-
-                    </v-form>
-                    </v-card-text>
-
+                  <v-form>
+                    <v-text-field
+                    name="courseName"
+                    label="Name (e.g. 'Web 3')"
+                    v-model="courseName"
+                    single-line
+                    required
+                    ></v-text-field>
+                    <v-text-field
+                    name="courseId"
+                    label="ID (e.g. 'CS 4690')"
+                    v-model="courseId"
+                    single-line
+                    required
+                    ></v-text-field>
+                  </v-form>
+                </v-card-text>
             <v-card-actions>
             <v-btn flat color="green" @click="createCourse">Create</v-btn>
             </v-card-actions>
