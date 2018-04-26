@@ -1,9 +1,9 @@
-<template>
-  <div >
+<template >
+  <div class="main-background" >
     <div v-if="coursesExist" class="nav-offset container width-restrictor">
       <v-container grid-list-md>
         <v-layout row wrap>
-          <v-flex xs12 v-for="course of courses" :key="course._id">
+          <v-flex xs8 offset-xs2 v-for="course of courses" :key="course._id">
             <v-card>
               <v-card-title>
                 <v-flex xs12>
@@ -116,6 +116,20 @@ export default {
 </script>
 
 <style scoped>
+.main-background {
+  /* background: linear-gradient(rgb(76, 175, 80) 50%, rgb(248, 250, 248) 0%); */
+  background-color: rgb(240, 255, 240);
+  position: fixed;
+  background-attachment: fixed;
+  width: 100%;
+  height: 90vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: min-content;
+  position: relative;
+}
 .nav-offset {
   margin-top: 75px;
 }

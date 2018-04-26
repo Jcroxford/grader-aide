@@ -21,6 +21,7 @@
                             v-model="courseId"
                             single-line
                             required
+                            @keyup.enter="createCourse"
                             ></v-text-field>
 
 
@@ -28,7 +29,7 @@
                     </v-card-text>
 
             <v-card-actions>
-            <v-btn flat color="green" @click="createCourse()">Create</v-btn>
+            <v-btn flat color="green" @click="createCourse">Create</v-btn>
             </v-card-actions>
         </v-card>
         </v-flex>

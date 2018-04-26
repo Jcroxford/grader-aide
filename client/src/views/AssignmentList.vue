@@ -1,9 +1,9 @@
 <template>
-  <div >
+  <div class="main-background">
     <div v-if="assignmentsExist" class="nav-offset container width-restrictor">
       <v-container grid-list-md>
         <v-layout row wrap>
-          <v-flex xs12 v-for="assignment of assignments" :key="assignment._id">
+          <v-flex xs10 offset-xs1 v-for="assignment of assignments" :key="assignment._id">
             <v-card>
               <v-card-title>
                 <v-flex xs12>
@@ -130,6 +130,20 @@ export default {
 </script>
 
 <style scoped>
+.main-background {
+  /* background: linear-gradient(rgb(76, 175, 80) 50%, rgb(248, 250, 248) 0%); */
+  background-color: rgb(240, 255, 240);
+  position: fixed;
+  background-attachment: fixed;
+  width: 100%;
+  height: 90vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: min-content;
+  position: relative;
+}
 .nav-offset {
   margin-top: 75px;
 }
