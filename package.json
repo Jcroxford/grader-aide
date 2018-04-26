@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && jest",
-    "test:watch": "export NODE_ENV=test || SET \"NODE_ENV=test\" && jest --watch",
+    "test:watch": "export NODE_ENV=test || SET \"NODE_ENV=test\" && jest --watch --verbose",
     "dev": "nodemon server.js",
     "setup-dev": "npm i && npm i --prefix ./client"
   },
