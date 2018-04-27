@@ -29,7 +29,6 @@ router.get('/courses/:id', (req, res) => {
 
   Courses.findById(id)
     .then(course => {
-      console.log('course: ', course);
       if (!course) return res.status(400).json({ error: 'course at given id does not exist' });
       res.json(course);
     })

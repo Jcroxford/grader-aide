@@ -125,7 +125,6 @@ export default {
     const { courseId } = this.$route.params;
 
     courseApi.getCourse(courseId, course => {
-      console.log('course: ', course);
       if (course.assignments.length === 0) self.assignmentsExist = false;
       self.parentCourse = course;
       self.assignments = course.assignments;
