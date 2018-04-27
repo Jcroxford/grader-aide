@@ -78,15 +78,35 @@ function updateAssignment(courseId, assignmentId, updatedAssignment) {
 function destroyAssignment(courseId, assignmentId) {
   const collection = db.collection('courses');
 
-  return collection
-    .findOneAndUpdate(
-      { _id: ObjectId(courseId) },
-      { $pull: { assignments: { _id: ObjectId(assignmentId) } } }
-    )
-    .then(({ ok }) => ok);
+  const match = { _id: ObjectId(courseId) };
+
+  const updates = { $pull: { assignments: { _id: ObjectId(assignmentId) } } };
+
+  return collection.findOneAndUpdate(match, updates).then(({ ok }) => ok);
 }
-// delete an assignment from a acourse
-// get all assignments for a course (name and id only?)
+
+function getCourseAssignments(courseId) {
+  const collection = db.collection('courses');
+
+  const match = { _id: ObjectId(courseId) };
+  const select = { assignments: 1 };
+
+  return collection.findOne(match, select).then(({ assignments }) => assignments);
+}
+
+function findCourseAssignmentById(courseId, assignmentId) {
+  const collection = db.collection('courses');
+
+  const match = {
+    _id: ObjectId(courseId),
+    'assignments._id': ObjectId(assignmentId)
+  };
+  const select = { fields: { 'assignments.$': 1 } };
+
+  return collection.findOne(match, select).then(({ assignments }) => assignments[0]);
+}
+
+// todo
 // get a signle assingment from a course by id for both assignment and course
 // get students enrolled in a course
 // add a student
@@ -98,5 +118,7 @@ module.exports = {
   destroyCourse,
   createAssignment,
   updateAssignment,
-  destroyAssignment
+  destroyAssignment,
+  getCourseAssignments,
+  findCourseAssignmentById
 };

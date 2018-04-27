@@ -228,4 +228,27 @@ describe('courses.models.js', () => {
         });
     });
   });
+
+  describe('getCourseAssignments()', () => {
+    it('returns all assignments for a course identified by id', () => {
+      const courseId = coursesSeed[0]._id;
+      const expectedAssignments = coursesSeed[0].assignments;
+
+      return courses
+        .getCourseAssignments(courseId)
+        .then(assignments => expect(assignments).toEqual(expectedAssignments));
+    });
+  });
+
+  describe('findCourseAssignmentById()', () => {
+    it('returns assignment specified by the courseId and assignmentId params given to the function', () => {
+      const courseId = coursesSeed[0]._id;
+      const assignmentId = coursesSeed[0].assignments[0]._id;
+      const expectedAssignment = coursesSeed[0].assignments[0];
+
+      return courses
+        .findCourseAssignmentById(courseId, assignmentId)
+        .then(assignment => expect(assignment).toEqual(expectedAssignment));
+    });
+  });
 });
