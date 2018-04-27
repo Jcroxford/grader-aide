@@ -1,7 +1,8 @@
 /**
  * This is how a course looks
  * @param {string} _id - unique
- * @param {string} name
+ * @param {string} courseName
+ * @param {string} courseId - e.g. cs4690
  * @param {object[]} assignments see assignment object definition below
  * @param {string[]} studentsEnrolled - ids of enrolled students
  */
@@ -42,28 +43,48 @@ function createCourse(course) {
   });
 }
 
-// edit a course by id
-// todo needed or nah?
-// function editCourse(courseId, updates) {
-//   const collection = db.collection('courses')
-
-//   return collection.updateOne({ _id: courseId }, updates)
-// }
-
 function destroyCourse(_id) {
   const collection = db.collection('courses');
 
-  return collection.deleteOne({ _id }).then(({ deletedCount }) => deletedCount);
+  return collection.deleteOne({ _id: ObjectId(_id) }).then(({ deletedCount }) => deletedCount);
 }
 
 function createAssignment(courseId, assignment) {
   const collection = db.collection('courses');
 
   return collection
-    .findOneAndUpdate({ _id: courseId }, { $push: { assignments: assignment } })
+    .findOneAndUpdate({ _id: ObjectId(courseId) }, { $push: { assignments: assignment } })
     .then(({ ok }) => ok);
 }
-// update an assignment in a course
+
+// required entire assignment atm
+function updateAssignment(courseId, assignmentId, updatedAssignment) {
+  const collection = db.collection('courses');
+
+  const match = {
+    _id: ObjectId(courseId),
+    'assignments._id': ObjectId(assignmentId)
+  };
+
+  const updates = {
+    $set: {
+      'assignments.$': updatedAssignment
+    }
+  };
+
+  return collection.findOneAndUpdate(match, updates).then(({ ok }) => ok);
+}
+
+function destroyAssignment(courseId, assignmentId) {
+  const collection = db.collection('courses');
+
+  return collection
+    .findOneAndUpdate(
+      { _id: ObjectId(courseId) },
+      { $pull: { assignments: { _id: ObjectId(courseId) } } }
+    )
+    .then(({ ok }) => ok);
+}
 // delete an assignment from a acourse
 // get all assignments for a course (name and id only?)
 // get a signle assingment from a course by id for both assignment and course
@@ -75,5 +96,7 @@ module.exports = {
   findById,
   createCourse,
   destroyCourse,
-  createAssignment
+  createAssignment,
+  updateAssignment,
+  destroyAssignment
 };

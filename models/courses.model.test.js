@@ -6,35 +6,30 @@ const db = require('../db');
 const ObjectId = require('mongodb').ObjectID;
 
 // seed data
-const coursesSeed = require('../seed/courses.seed.json');
+const coursesSeed = require('../seed/courses.seed.js');
 
 const courses = require('./courses.model');
-
-function deepCopy(x) {
-  return JSON.parse(JSON.stringify(x));
-}
 
 describe('courses.models.js', () => {
   beforeAll(() => db.connect());
   afterAll(() => db.close());
 
   let collection;
-  let premadeCourses;
   beforeEach(() => {
     collection = db.get().collection('courses');
 
-    premadeCourses = deepCopy(coursesSeed).map(course => ({ ...course, _id: new ObjectId() }));
-    return collection.insertMany(premadeCourses);
+    return collection.insertMany(coursesSeed);
   });
   afterEach(() => {
     return collection.remove({});
   });
 
   describe('preview()', () => {
-    it(`returns an array of objects containing a course's name and id`, () => {
-      const expected = premadeCourses.map(course => ({
+    it(`returns an array of objects containing a course's name, courseId and id`, () => {
+      const expected = coursesSeed.map(course => ({
         _id: course._id,
-        name: course.name
+        courseName: course.courseName,
+        courseId: course.courseId
       }));
 
       return courses.preview().then(courses => {
@@ -45,7 +40,7 @@ describe('courses.models.js', () => {
 
   describe('findById()', () => {
     it(`returns a course when given that course's id`, () => {
-      const expectedCourse = premadeCourses[0];
+      const expectedCourse = coursesSeed[0];
       const expectedCourseId = expectedCourse._id;
 
       return courses
@@ -109,7 +104,7 @@ describe('courses.models.js', () => {
 
   describe('destroyCourse()', () => {
     it('removes course from collection and returns truth value if removed successfully', () => {
-      const courseId = premadeCourses[0]._id;
+      const courseId = coursesSeed[0]._id;
 
       return courses
         .destroyCourse(courseId)
@@ -118,7 +113,7 @@ describe('courses.models.js', () => {
 
           return collection.find({}).toArray();
         })
-        .then(courses => expect(courses.length).toBe(premadeCourses.length - 1));
+        .then(courses => expect(courses.length).toBe(coursesSeed.length - 1));
     });
 
     it('does not remove a course if and returns falsey value if id does not exist', () => {
@@ -131,7 +126,7 @@ describe('courses.models.js', () => {
 
           return collection.find({}).toArray();
         })
-        .then(courses => expect(courses.length).toBe(premadeCourses.length));
+        .then(courses => expect(courses.length).toBe(coursesSeed.length));
     });
   });
 
@@ -141,7 +136,7 @@ describe('courses.models.js', () => {
       name: 'minimal example assignemnt'
     };
     it('adds an assignment to assignments array of a course', () => {
-      const courseId = premadeCourses[0]._id;
+      const courseId = coursesSeed[0]._id;
 
       return courses
         .createAssignment(courseId, expectedAssignment)
@@ -156,7 +151,7 @@ describe('courses.models.js', () => {
 
     it(`adds assignment while creating assignments key if it doesn't exist`, () => {
       // this course does/should not have any assignments in it
-      const courseId = premadeCourses[2]._id;
+      const courseId = coursesSeed[2]._id;
 
       return courses
         .createAssignment(courseId, expectedAssignment)
@@ -165,6 +160,49 @@ describe('courses.models.js', () => {
         })
         .then(course => {
           expect(course).toHaveProperty('assignments', [expectedAssignment]);
+        });
+    });
+  });
+
+  describe('updateAssignment()', () => {
+    it('updates specified assignment contained in a course', () => {
+      const courseId = coursesSeed[0]._id;
+      const assignmentId = coursesSeed[0].assignments[0]._id;
+      const expectedUpdatedAssignment = {
+        _id: assignmentId,
+        assignmentName: 'update everything about this assignment for the test',
+        totalPts: '100',
+        rules: [
+          {
+            desc: 'hello there',
+            pts: 2,
+            checked: false,
+            _id: new ObjectId()
+          }
+        ],
+        comments: [
+          {
+            desc: 'unique to this test bru',
+            _id: new ObjectId(),
+            checked: false
+          }
+        ]
+      };
+
+      return courses
+        .updateAssignment(courseId, assignmentId, expectedUpdatedAssignment)
+        .then(saved => {
+          expect(saved).toBeTruthy();
+
+          const match = { _id: courseId, 'assignments._id': assignmentId };
+          return collection.findOne(match);
+        })
+        .then(course => {
+          const updatedAssignment = course.assignments.find(
+            assignment => assignment._id.toHexString() === assignmentId.toHexString()
+          );
+
+          expect(updatedAssignment).toEqual(expectedUpdatedAssignment);
         });
     });
   });
