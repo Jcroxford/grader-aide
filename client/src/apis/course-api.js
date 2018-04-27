@@ -6,7 +6,9 @@ export function createCourse(course, callback) {
   axios
     .post(`${BASE_URL}/api/courses/`, {
       courseName: course.courseName,
-      courseId: course.courseId
+      courseId: course.courseId,
+      assignments: course.assignments,
+      studentsEnrolled: course.studentsEnrolled
     })
     .then(response => response.data)
     .then(callback)

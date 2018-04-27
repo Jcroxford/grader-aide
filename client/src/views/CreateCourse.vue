@@ -52,11 +52,12 @@ export default {
       let self = this;
       let newCourse = {
         courseName: self.courseName,
-        courseId: self.courseId
+        courseId: self.courseId,
+        assignments: [],
+        studentsEnrolled: []
       };
-
       CourseAPI.createCourse(newCourse, function(res) {
-        self.$router.push(`/courses`);
+        self.$router.push(`/courses/${res.id}`);
       });
     },
     deepCopy(arr) {

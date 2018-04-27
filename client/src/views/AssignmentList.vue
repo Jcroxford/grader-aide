@@ -69,7 +69,7 @@
       </v-snackbar>
     </div>
     <div v-if="!assignmentsExist">
-      <h1 class="no-assignments display-1">No assignments exist for this course.
+      <h1 class="no-assignments display-1">No assignments exist for {{parentCourse.courseName}}.
         <br> Please create one by clicking the button below.</h1>
     </div>
     <v-tooltip left>
@@ -103,7 +103,8 @@ export default {
       timeout: 5000,
       deletedAssignment: '',
       deletionStack: [],
-      assignmentsExist: true
+      assignmentsExist: true,
+      parentCourse: null
     };
   },
   methods: {
@@ -125,9 +126,9 @@ export default {
 
     courseApi.getCourse(courseId, course => {
       console.log('course: ', course);
-
-      // if (assignments.length === 0) self.assignmentsExist = false;
-      // self.assignments = assignments;
+      if (course.assignments.length === 0) self.assignmentsExist = false;
+      self.parentCourse = course;
+      self.assignments = course.assignments;
     });
   }
 };
