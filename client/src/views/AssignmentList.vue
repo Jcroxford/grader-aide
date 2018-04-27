@@ -109,9 +109,9 @@ export default {
   },
   methods: {
     navigateToAssignment(id) {
-      console.log('id: ', id);
-      console.log('this.assignments[0]: ', this.assignments[0]);
-      // this.$router.push(`/grade-assignment/${id}`);
+      // console.log('id: ', id);
+      // console.log('this.assignments[0]: ', this.assignments[0]);
+      this.$router.push(`/grade-assignment/${id}`);
     },
     deleteAssignment(id) {
       this.deletionStack.push(id);
@@ -119,6 +119,7 @@ export default {
       this.snackbar = true;
     },
     createAssignment() {
+      // eslint-disable-next-line
       this.$router.push(`/courses/${this.parentCourse._id}/create-assignment/`);
     }
   },
@@ -128,7 +129,6 @@ export default {
 
     courseApi.getCourse(courseId, course => {
       if (course.assignments.length === 0) self.assignmentsExist = false;
-      console.log('course: ', course);
       self.parentCourse = course;
       self.assignments = course.assignments;
     });
