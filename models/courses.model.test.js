@@ -207,7 +207,7 @@ describe('courses.models.js', () => {
     });
   });
 
-  describe('deleteCourse()', () => {
+  describe('destroyAssignment()', () => {
     it('removes an assignment that exists in a course from that course', () => {
       const courseId = coursesSeed[0]._id;
       const assignmentId = coursesSeed[0].assignments[0]._id;
