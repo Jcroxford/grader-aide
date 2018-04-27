@@ -4,8 +4,8 @@ const Courses = require('../models/courses.model');
 
 router.post('/courses', (req, res) => {
   Courses.createCourse(req.body)
-    .then(_id => {
-      res.json({ _id });
+    .then(id => {
+      res.json({ id });
     })
     .catch(err => {
       console.log(err);
@@ -25,12 +25,12 @@ router.get('/courses', function(req, res, next) {
 });
 
 router.get('/courses/:id', (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
 
-  Courses.findById(_id)
+  Courses.findById(id)
     .then(course => {
-      if (!course) res.status(400).json({ error: 'course at given id does not exist' });
-
+      console.log('course: ', course);
+      if (!course) return res.status(400).json({ error: 'course at given id does not exist' });
       res.json(course);
     })
     .catch(err => {
@@ -41,9 +41,9 @@ router.get('/courses/:id', (req, res) => {
 });
 
 router.delete('/courses/:id', (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
 
-  Courses.destroyCourse(_id)
+  Courses.destroyCourse(id)
     .then(log)
     .catch(err => {
       console.log(err);
@@ -55,9 +55,9 @@ router.delete('/courses/:id', (req, res) => {
 });
 
 router.put('/courses/:id', (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
 
-  Courses.updateCourseById(_id, req.body)
+  Courses.updateCourseById(id, req.body)
     .then(() => res.status(204).send())
     .catch(err => {
       console.log(err);
@@ -72,8 +72,8 @@ router.put('/courses/:id', (req, res) => {
 router.post('/course/:courseId/assignment', (req, res) => {
   const { courseId } = req.params;
   Courses.createAssignment(courseId, req.body)
-    .then(_id => {
-      res.json({ _id });
+    .then(id => {
+      res.json({ id });
     })
     .catch(err => {
       console.log(err);

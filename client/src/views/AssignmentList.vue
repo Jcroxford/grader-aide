@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import * as assignmentApi from '@/apis/assignment-api';
+import * as courseApi from '@/apis/course-api';
 
 export default {
   data() {
@@ -121,9 +121,13 @@ export default {
   },
   created() {
     const self = this;
-    assignmentApi.getAssignments(assignments => {
-      if (assignments.length === 0) self.assignmentsExist = false;
-      self.assignments = assignments;
+    const { courseId } = this.$route.params;
+
+    courseApi.getCourse(courseId, course => {
+      console.log('course: ', course);
+
+      // if (assignments.length === 0) self.assignmentsExist = false;
+      // self.assignments = assignments;
     });
   }
 };

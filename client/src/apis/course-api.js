@@ -21,6 +21,14 @@ export function getCourses(callback) {
     .catch(callback);
 }
 
+export function getCourse(id, callback) {
+  axios
+    .get(`${BASE_URL}/api/courses/${id}`)
+    .then(response => response.data)
+    .then(callback)
+    .catch(callback);
+}
+
 // export function getAssignment(id, callback) {
 //   axios
 //     .get(`${BASE_URL}/api/assignments/${id}`)

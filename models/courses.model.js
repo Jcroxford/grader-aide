@@ -29,7 +29,7 @@ function preview() {
 function findById(_id) {
   const collection = db.collection('courses');
 
-  return collection.findOne({ _id });
+  return collection.findOne({ _id: ObjectId(_id) });
 }
 // create a new course
 function createCourse(course) {
