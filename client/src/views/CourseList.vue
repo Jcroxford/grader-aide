@@ -149,6 +149,5 @@ export default {
 
 .no-courses {
   text-align: center;
-  margin-top: 40vh;
 }
 </style>

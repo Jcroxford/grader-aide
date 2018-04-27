@@ -10,7 +10,7 @@
                     <v-form>
                             <v-text-field
                             label="Assignment Name"
-                            v-model="assignmentName"
+                            v-model="name"
                             required
                             ></v-text-field>
                             <v-text-field
@@ -96,7 +96,7 @@
 <script>
 /* eslint-disable */
 import EditAssignmentModal from '@/components/EditAssignmentModal';
-import * as AssignmentAPI from '@/apis/assignment-api.js';
+import * as CourseApi from '@/apis/course-api.js';
 
 import { ObjectId } from 'bson';
 
@@ -104,10 +104,11 @@ export default {
   data() {
     return {
       assignmentID: null,
-      assignmentName: null,
+      name: null,
       totalPts: null,
       assignmentEditable: false,
       totalPtsEditable: false,
+      parentCourseId: null,
       // gui state
       ruleHeaders: [
         {
@@ -163,15 +164,14 @@ export default {
     createAssignment() {
       let self = this;
       let newAssignment = {
-        assignmentID: null,
-        assignmentName: this.assignmentName,
+        name: this.name,
         totalPts: this.totalPts,
         rules: this.validRules,
         comments: this.validComments
       };
 
-      AssignmentAPI.createAssignment(newAssignment, function(res) {
-        self.$router.push(`/grade-assignment/${res.assignmentId}`);
+      CourseApi.createAssignment(self.parentCourseId, newAssignment, function(res) {
+        self.$router.push(`/course/${self.parentCourseId}/grade-assignment/${res._id}`);
       });
     },
     deepCopy(arr) {
@@ -269,7 +269,13 @@ export default {
       return this.scopedComments.filter(comment => comment.desc != '');
     }
   },
-  created() {},
+  created() {
+    const { courseId } = this.$route.params;
+    this.parentCourseId = courseId;
+    // CourseApi.getCourse(courseId, course => {
+    //   self.parentCourseId = course;
+    // });
+  },
   components: {}
 };
 </script>

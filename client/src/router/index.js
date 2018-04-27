@@ -41,7 +41,7 @@ export default new Router({
       component: AssignmentList
     },
     {
-      path: '/grade-assignment/:assignmentId',
+      path: '/course/:courseId/grade-assignment/:assignmentId',
       name: 'GradeAssignment',
       beforeEnter: routeGaurds.isAdminGaurd,
       component: GradeAssignment
@@ -53,7 +53,7 @@ export default new Router({
       component: CreateCourse
     },
     {
-      path: '/create-assignment',
+      path: '/courses/:courseId/create-assignment',
       name: 'CreateAssignment',
       beforeEnter: routeGaurds.isAdminGaurd,
       component: CreateAssignment

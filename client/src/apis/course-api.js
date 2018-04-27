@@ -31,13 +31,26 @@ export function getCourse(id, callback) {
     .catch(callback);
 }
 
-// export function getAssignment(id, callback) {
-//   axios
-//     .get(`${BASE_URL}/api/assignments/${id}`)
-//     .then(response => response.data)
-//     .then(callback)
-//     .catch(callback);
-// }
+export function getAssignment(courseId, assignmentId, callback) {
+  axios
+    .get(`${BASE_URL}/courses/${courseId}/assignments/${assignmentId}`)
+    .then(response => response.data)
+    .then(callback)
+    .catch(callback);
+}
+
+export function createAssignment(courseId, assignment, callback) {
+  axios
+    .post(`${BASE_URL}/api/course/${courseId}/assignment`, {
+      name: assignment.name,
+      totalPts: assignment.totalPts,
+      rules: assignment.rules,
+      comments: assignment.comments
+    })
+    .then(response => response.data)
+    .then(callback)
+    .catch(callback);
+}
 
 // export function updateAssignment(assignment, callback) {
 //   axios
@@ -47,6 +60,14 @@ export function getCourse(id, callback) {
 //       rules: assignment.rules,
 //       comments: assignment.comments
 //     })
+//     .then(response => response.data)
+//     .then(callback)
+//     .catch(callback);
+// }
+
+// export function getAssignment(id, callback) {
+//   axios
+//     .get(`${BASE_URL}/api/assignments/${id}`)
 //     .then(response => response.data)
 //     .then(callback)
 //     .catch(callback);

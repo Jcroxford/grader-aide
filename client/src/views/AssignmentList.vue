@@ -7,7 +7,7 @@
             <v-card>
               <v-card-title>
                 <v-flex xs12>
-                  <span class="display-1">{{ assignment.assignmentName }}</span>
+                  <span class="display-1">{{ assignment.name }}</span>
                     </v-flex>
 
                   <v-flex
@@ -109,7 +109,9 @@ export default {
   },
   methods: {
     navigateToAssignment(id) {
-      this.$router.push(`/grade-assignment/${id}`);
+      console.log('id: ', id);
+      console.log('this.assignments[0]: ', this.assignments[0]);
+      // this.$router.push(`/grade-assignment/${id}`);
     },
     deleteAssignment(id) {
       this.deletionStack.push(id);
@@ -117,7 +119,7 @@ export default {
       this.snackbar = true;
     },
     createAssignment() {
-      this.$router.push('/create-assignment/');
+      this.$router.push(`/courses/${this.parentCourse._id}/create-assignment/`);
     }
   },
   created() {
@@ -126,6 +128,7 @@ export default {
 
     courseApi.getCourse(courseId, course => {
       if (course.assignments.length === 0) self.assignmentsExist = false;
+      console.log('course: ', course);
       self.parentCourse = course;
       self.assignments = course.assignments;
     });
@@ -167,6 +170,5 @@ export default {
 
 .no-assignments {
   text-align: center;
-  margin-top: 40vh;
 }
 </style>

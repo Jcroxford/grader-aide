@@ -39,6 +39,21 @@ router.get('/courses/:id', (req, res) => {
     });
 });
 
+router.get('/courses/:courseId/assignments/:assignmentId', (req, res) => {
+  const { courseId, assignmentId } = req.params;
+
+  Courses.findCourseAssignmentById(courseId, assignmentId)
+    .then(assignment => {
+      if (!assignment)
+        return res.status(400).json({ error: 'assignment at given id does not exist' });
+      res.json(assignment);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: 'server error occured while trying to retrieve assignments' });
+    });
+});
+
 router.delete('/courses/:id', (req, res) => {
   const { id } = req.params;
 
