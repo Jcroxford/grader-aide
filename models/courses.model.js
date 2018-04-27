@@ -81,7 +81,7 @@ function destroyAssignment(courseId, assignmentId) {
   return collection
     .findOneAndUpdate(
       { _id: ObjectId(courseId) },
-      { $pull: { assignments: { _id: ObjectId(courseId) } } }
+      { $pull: { assignments: { _id: ObjectId(assignmentId) } } }
     )
     .then(({ ok }) => ok);
 }

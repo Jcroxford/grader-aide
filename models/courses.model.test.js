@@ -206,4 +206,26 @@ describe('courses.models.js', () => {
         });
     });
   });
+
+  describe('deleteCourse()', () => {
+    it('removes an assignment that exists in a course from that course', () => {
+      const courseId = coursesSeed[0]._id;
+      const assignmentId = coursesSeed[0].assignments[0]._id;
+
+      return courses
+        .destroyAssignment(courseId, assignmentId)
+        .then(removed => {
+          expect(removed).toBeTruthy();
+
+          return collection.findOne({ _id: ObjectId(courseId) });
+        })
+        .then(course => {
+          let doesCourseStillExist = course.assignments.find(
+            assignment => assignment._id.toHexString() === assignmentId.toHexString()
+          );
+
+          expect(doesCourseStillExist).toBeFalsy();
+        });
+    });
+  });
 });
