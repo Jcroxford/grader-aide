@@ -3,7 +3,7 @@ const ObjectId = require('mongodb').ObjectID;
 module.exports = [
   {
     _id: new ObjectId(),
-    courseName: 'example assignment 1',
+    courseName: 'Object Oriented Programming',
     courseId: 'cs1410',
     assignments: [
       {
@@ -92,7 +92,7 @@ module.exports = [
   },
   {
     _id: new ObjectId(),
-    courseName: 'example assignment 2',
+    courseName: 'Data Structures and Algorithms',
     courseId: 'cs2420',
     assignments: [
       {
@@ -181,7 +181,7 @@ module.exports = [
   },
   {
     _id: new ObjectId(),
-    courseName: 'example assignment 3',
+    courseName: 'Fundamentals of Programming',
     courseId: 'cs1400'
   }
 ];
