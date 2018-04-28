@@ -107,7 +107,6 @@ function findCourseAssignmentById(courseId, assignmentId) {
 }
 
 // todo
-// get a signle assingment from a course by id for both assignment and course
 // get students enrolled in a course
 // add a student
 
