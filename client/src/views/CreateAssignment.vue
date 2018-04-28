@@ -171,7 +171,7 @@ export default {
       };
 
       CourseApi.createAssignment(self.parentCourseId, newAssignment, function(res) {
-        self.$router.push(`/course/${self.parentCourseId}/grade-assignment/${res._id}`);
+        self.$router.push(`/course/${self.parentCourseId}/grade-assignment/${res.id}`);
       });
     },
     deepCopy(arr) {

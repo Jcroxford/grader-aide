@@ -57,7 +57,7 @@ export default {
         studentsEnrolled: []
       };
       CourseAPI.createCourse(newCourse, function(res) {
-        self.$router.push(`/courses/${res.id}/create-assignment`);
+        self.$router.push(`/courses/${res.id}`);
       });
     },
     deepCopy(arr) {
