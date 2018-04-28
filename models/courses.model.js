@@ -53,7 +53,10 @@ function createAssignment(courseId, assignment) {
   const collection = db.collection('courses');
 
   return collection
-    .findOneAndUpdate({ _id: ObjectId(courseId) }, { $push: { assignments: assignment } })
+    .findOneAndUpdate(
+      { _id: ObjectId(courseId) },
+      { $push: { assignments: { _id: new ObjectId(), ...assignment } } }
+    )
     .then(({ ok }) => ok);
 }
 
