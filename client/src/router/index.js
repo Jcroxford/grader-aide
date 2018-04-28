@@ -15,7 +15,6 @@ Vue.use(Router);
 
 export default new Router({
   routes: [
-    // fixme will probably want to redirect to a view of a list of assignments in the future
     {
       path: '/',
       redirect: '/login'
