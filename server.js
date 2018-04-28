@@ -40,6 +40,13 @@ db
   .then(() => {
     console.log('\nconnection to database established\n');
 
+    if (process.env.NODE_ENV === 'development') {
+      const seedDB = require('./seed/seedDevServer');
+
+      return seedDB().then(() => console.log('dev server has been reseeded successfully\n'));
+    }
+  })
+  .then(() => {
     app.listen(port, () => {
       console.log(`Listening on http://localhost:${port}\n`);
     });

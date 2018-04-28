@@ -1,4 +1,5 @@
 const ObjectId = require('mongodb').ObjectID;
+
 module.exports = [
   {
     _id: new ObjectId(),
@@ -7,7 +8,7 @@ module.exports = [
     assignments: [
       {
         _id: new ObjectId(),
-        assignmentName: 'This is the first assignment',
+        name: 'This is the first assignment',
         totalPts: '100',
         rules: [
           {
@@ -43,7 +44,7 @@ module.exports = [
       },
       {
         _id: new ObjectId(),
-        assignmentName: 'Assignment 5',
+        name: 'Assignment 5',
         totalPts: '9001',
         rules: [
           {
@@ -69,7 +70,7 @@ module.exports = [
       },
       {
         _id: new ObjectId(),
-        assignmentName:
+        name:
           'This is another test of an assignment that has a super long name. like even longer than the card, bru',
         totalPts: '9001',
         rules: [
@@ -96,7 +97,7 @@ module.exports = [
     assignments: [
       {
         _id: new ObjectId(),
-        assignmentName: 'This is the first assignment',
+        name: 'This is the first assignment',
         totalPts: '100',
         rules: [
           {
@@ -132,7 +133,7 @@ module.exports = [
       },
       {
         _id: new ObjectId(),
-        assignmentName: 'Assignment 5',
+        name: 'Assignment 5',
         totalPts: '9001',
         rules: [
           {
@@ -158,7 +159,7 @@ module.exports = [
       },
       {
         _id: new ObjectId(),
-        assignmentName:
+        name:
           'This is another test of an assignment that has a super long name. like even longer than the card, bru',
         totalPts: '9001',
         rules: [
