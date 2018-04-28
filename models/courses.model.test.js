@@ -169,7 +169,7 @@ describe('courses.models.js', () => {
       const courseId = coursesSeed[0]._id;
       const assignmentId = coursesSeed[0].assignments[0]._id;
       const expectedUpdatedAssignment = {
-        _id: assignmentId,
+        _id: assignmentId.toHexString(),
         assignmentName: 'update everything about this assignment for the test',
         totalPts: '100',
         rules: [
@@ -202,7 +202,10 @@ describe('courses.models.js', () => {
             assignment => assignment._id.toHexString() === assignmentId.toHexString()
           );
 
-          expect(updatedAssignment).toEqual(expectedUpdatedAssignment);
+          expect(updatedAssignment).toEqual({
+            ...expectedUpdatedAssignment,
+            _id: ObjectId(assignmentId)
+          });
         });
     });
   });

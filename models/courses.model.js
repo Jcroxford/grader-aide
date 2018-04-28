@@ -72,7 +72,7 @@ function updateAssignment(courseId, assignmentId, updatedAssignment) {
 
   const updates = {
     $set: {
-      'assignments.$': updatedAssignment
+      'assignments.$': { ...updatedAssignment, _id: ObjectId(assignmentId) }
     }
   };
 
@@ -107,7 +107,9 @@ function findCourseAssignmentById(courseId, assignmentId) {
   };
   const select = { fields: { 'assignments.$': 1 } };
 
-  return collection.findOne(match, select).then(({ assignments }) => assignments[0]);
+  return collection
+    .findOne(match, select)
+    .then(course => course && course.assignments && course.assignments[0]);
 }
 
 // todo
