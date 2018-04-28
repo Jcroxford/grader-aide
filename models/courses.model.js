@@ -52,12 +52,13 @@ function destroyCourse(_id) {
 function createAssignment(courseId, assignment) {
   const collection = db.collection('courses');
 
+  const _id = new ObjectId();
   return collection
     .findOneAndUpdate(
       { _id: ObjectId(courseId) },
-      { $push: { assignments: { _id: new ObjectId(), ...assignment } } }
+      { $push: { assignments: { _id, ...assignment } } }
     )
-    .then(({ ok }) => ok);
+    .then(({ ok }) => (ok ? _id : null));
 }
 
 // required entire assignment atm

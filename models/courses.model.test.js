@@ -18,7 +18,7 @@ describe('courses.models.js', () => {
   beforeEach(() => {
     collection = db.get().collection('courses');
 
-    return collection.insertMany(coursesSeed);
+    return collection.remove({}).then(() => collection.insertMany(coursesSeed));
   });
   afterEach(() => {
     return collection.remove({});
