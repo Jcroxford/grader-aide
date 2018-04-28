@@ -39,7 +39,7 @@ router.get('/courses/:id', (req, res) => {
     });
 });
 
-router.get('/courses/:courseId/assignments/:assignmentId', (req, res) => {
+router.get('/courses/:courseId/assignment/:assignmentId', (req, res) => {
   const { courseId, assignmentId } = req.params;
 
   Courses.findCourseAssignmentById(courseId, assignmentId)
@@ -79,6 +79,18 @@ router.put('/courses/:id', (req, res) => {
       res.status(500).json({
         error: 'unable to udpate assignment'
       });
+    });
+});
+
+router.put('/courses/:courseId/assignment/:assignmentId', (req, res) => {
+  const { courseId, assignmentId } = req.params;
+
+  Courses.updateAssignment(courseId, assignmentId, req.body)
+    .then(() => res.status(204).send())
+    .catch(err => {
+      console.log(err);
+
+      res.status(500).json({ error: 'unable to udpate assignment' });
     });
 });
 

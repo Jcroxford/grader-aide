@@ -196,6 +196,7 @@ export default {
   data() {
     return {
       // persistant data
+      _id: null, //this one is needed for api update calls. assignmentId is needed for html above. I'm too lazy to change it.
       assignmentId: null,
       assignmentName: null,
       totalPts: null,
@@ -256,47 +257,28 @@ export default {
       }));
     },
     updateAssignmentName() {
-      // //console.log(event);
-      // this.assignmentEditable = false;
-      // if (event.type == 'blur') {
-      //   this.updateAssignmentInDB();
-      // }
+      //console.log(event);
+      this.assignmentEditable = false;
+      if (event.type == 'blur') {
+        this.updateAssignmentInDB();
+      }
     },
     updateTotalPts() {
-      // //console.log(event);
-      // this.totalPtsEditable = false;
-      // if (event.type == 'blur') {
-      //   this.updateAssignmentInDB();
-      // }
+      this.totalPtsEditable = false;
+      if (event.type == 'blur') {
+        this.updateAssignmentInDB();
+      }
     },
     updateAssignmentInDB() {
-      // let self = this;
-      // if (self.assignmentID != null) {
-      //   CourseApi.updateAssignment(self, function(res) {
-      //     //self.updateAllAssignmentsList();
-      //     //todo fix the line above with assignment switcher
-      //   }); //don't need to do anything once complete, just update in db
-      // } else {
-      //   //new assignment needs to be created in database.
-      //   CourseApi.createAssignment(self, function(res) {
-      //     self.assignmentID = res.data.assignmentId;
-      //     //self.updateAllAssignmentsList();
-      //     //todo fix the line above with assignment switcher
-      //   }); //don't need to do anything once complete, just update in db
-      // }
+      CourseApi.updateAssignment(this.parentCourseId, this, function(res) {}); //don't need to do anything once complete, just update in db
     },
-    updateAllAssignmentsList() {
-      // let self = this;
-      // CourseApi.getAssignments(function(response) {
-      //   self.allAssignments = response;
-      // });
-    },
+
     handleSaveEdits({ rules, comments }) {
       this.rules = rules;
       this.comments = comments;
 
       const assignment = {
-        assignmentID: this.assignmentID,
+        _id: this._id,
         assignmentName: this.assignmentName,
         totalPts: this.totalPts,
         rules: this.rules.map(rule => ({
@@ -309,9 +291,7 @@ export default {
         }))
       };
 
-      // CourseApi.updateAssignment(assignment, res => {
-      //   console.log(res);
-      // });
+      CourseApi.updateAssignment(this.parentCourseId, assignment, res => {});
     }
   },
   computed: {
@@ -346,6 +326,7 @@ export default {
     self.parentCourseId = courseId;
 
     CourseApi.getAssignment(courseId, assignmentId, function(res) {
+      self._id = res._id;
       self.assignmentId = res._id;
       self.assignmentName = res.name;
       self.totalPts = res.totalPts;

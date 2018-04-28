@@ -33,7 +33,7 @@ export function getCourse(id, callback) {
 
 export function getAssignment(courseId, assignmentId, callback) {
   axios
-    .get(`${BASE_URL}/courses/${courseId}/assignments/${assignmentId}`)
+    .get(`${BASE_URL}/api/courses/${courseId}/assignment/${assignmentId}`)
     .then(response => response.data)
     .then(callback)
     .catch(callback);
@@ -52,23 +52,16 @@ export function createAssignment(courseId, assignment, callback) {
     .catch(callback);
 }
 
-// export function updateAssignment(assignment, callback) {
-//   axios
-//     .put(`${BASE_URL}/api/assignments/${assignment.assignmentID}`, {
-//       assignmentName: assignment.assignmentName,
-//       totalPts: assignment.totalPts,
-//       rules: assignment.rules,
-//       comments: assignment.comments
-//     })
-//     .then(response => response.data)
-//     .then(callback)
-//     .catch(callback);
-// }
-
-// export function getAssignment(id, callback) {
-//   axios
-//     .get(`${BASE_URL}/api/assignments/${id}`)
-//     .then(response => response.data)
-//     .then(callback)
-//     .catch(callback);
-// }
+export function updateAssignment(courseId, assignment, callback) {
+  axios
+    .put(`${BASE_URL}/api/courses/${courseId}/assignment/${assignment._id}`, {
+      _id: assignment._id,
+      name: assignment.assignmentName,
+      totalPts: assignment.totalPts,
+      rules: assignment.rules,
+      comments: assignment.comments
+    })
+    .then(response => response.data)
+    .then(callback)
+    .catch(callback);
+}

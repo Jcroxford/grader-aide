@@ -109,9 +109,7 @@ export default {
   },
   methods: {
     navigateToAssignment(id) {
-      // console.log('id: ', id);
-      // console.log('this.assignments[0]: ', this.assignments[0]);
-      this.$router.push(`/grade-assignment/${id}`);
+      this.$router.push(`/course/${this.parentCourse._id}/grade-assignment/${id}`);
     },
     deleteAssignment(id) {
       this.deletionStack.push(id);
@@ -131,6 +129,7 @@ export default {
       if (course.assignments.length === 0) self.assignmentsExist = false;
       self.parentCourse = course;
       self.assignments = course.assignments;
+      console.log('self.assignments: ', self.assignments);
     });
   }
 };
