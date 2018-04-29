@@ -1,7 +1,8 @@
 <template>
   <div class="main-background">
     <div v-if="assignmentsExist" class="nav-offset container width-restrictor">
-      <v-container grid-list-md>
+      <h1 class="display-1 centerize">{{parentCourse.courseName}} assignments</h1>
+      <v-container grid-list-md class="bottom-buffer">
         <v-layout row wrap>
           <v-flex xs10 offset-xs1 v-for="assignment of assignments" :key="assignment._id">
             <v-card>
@@ -14,10 +15,10 @@
                   xs4
                   >
                     <div class="assn-card-text">
-                      Total points: 69
+                      Total points: {{assignment.totalPts}}
                     </div>
                   </v-flex>
-                  <v-flex
+                  <!-- <v-flex
                   xs4
                   >
                     <div class="assn-card-text">
@@ -30,10 +31,10 @@
                     <div class="assn-card-text">
                       Due Date: 6/9/1969
                     </div>
-                  </v-flex>
+                  </v-flex> -->
 
                   <v-flex
-                  offset-xs8
+                  offset-xs7
                   align-content-space-between
                   >
                   <v-btn
@@ -129,7 +130,6 @@ export default {
       if (course.assignments.length === 0) self.assignmentsExist = false;
       self.parentCourse = course;
       self.assignments = course.assignments;
-      console.log('self.assignments: ', self.assignments);
     });
   }
 };
@@ -158,8 +158,9 @@ export default {
   max-width: 75%;
 }
 
-.assn-card-text {
-  /* padding-left: 15px; */
+.centerize {
+  text-align: center;
+  margin-bottom: 5vh;
 }
 
 .fab-button {
@@ -169,5 +170,9 @@ export default {
 
 .no-assignments {
   text-align: center;
+}
+
+.bottom-buffer {
+  margin-bottom: 10vh;
 }
 </style>

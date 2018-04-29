@@ -1,7 +1,9 @@
 <template >
   <div class="main-background" >
     <div v-if="coursesExist" class="nav-offset container width-restrictor">
-      <v-container grid-list-md>
+            <h1 class="display-1 centerize">All Courses</h1>
+
+      <v-container grid-list-md class="bottom-buffer">
         <v-layout row wrap>
           <v-flex xs10 offset-xs1 v-for="course of courses" :key="course._id">
             <v-card>
@@ -14,7 +16,7 @@
                   xs4
                   >
                     <div class="assn-card-text">
-                      Total students enrolled: 9001
+                      Total students enrolled: {{course.studentsEnrolled.length}}
                     </div>
                   </v-flex>
 
@@ -51,7 +53,7 @@
         v-model="snackbar"
       >
         {{ deletedCourse }}
-      <v-btn color="yellow" dark flat @click.native="snackbar = false">Undo</v-btn>
+      <v-btn color="yellow" dark flat @click.native="undoDeleteCourse">Undo</v-btn>
       </v-snackbar>
     </div>
     <div v-if="!coursesExist">
@@ -101,6 +103,10 @@ export default {
       this.deletedCourse = 'Deleted course.';
       this.snackbar = true;
     },
+    undoDeleteCourse() {
+      this.deletionStack.pop();
+      this.snackbar = false;
+    },
     createCourse() {
       this.$router.push('/create-course/');
     }
@@ -147,7 +153,16 @@ export default {
   margin-bottom: 35px;
 }
 
+.centerize {
+  text-align: center;
+  margin-bottom: 5vh;
+}
+
 .no-courses {
   text-align: center;
+}
+
+.bottom-buffer {
+  margin-bottom: 10vh;
 }
 </style>
