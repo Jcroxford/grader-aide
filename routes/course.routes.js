@@ -58,13 +58,23 @@ router.delete('/courses/:id', (req, res) => {
   const { id } = req.params;
 
   Courses.destroyCourse(id)
-    .then(log)
+    .then(() => res.status(200).send())
     .catch(err => {
       console.log(err);
 
-      res.status(500).json({
-        error: 'unable to remove assignment'
-      });
+      res.status(500).json({ error: 'unable to remove assignment' });
+    });
+});
+
+router.delete('/courses/:courseId/assignment/:assignmentId', (req, res) => {
+  const { courseId, assignmentId } = req.params;
+
+  Courses.destroyAssignment(courseId, assignmentId)
+    .then(() => res.status(200).send())
+    .catch(err => {
+      console.log(err);
+
+      res.status(500).json({ error: 'unable to remove assignment' });
     });
 });
 

@@ -34,7 +34,7 @@
                   <v-btn
                     flat
                     color="red"
-                    @click="deleteCourse(course._id)"
+                    @click="deleteCourse(course)"
                   >
                     Delete
                   </v-btn>
@@ -46,15 +46,6 @@
           </v-flex>
         </v-layout>
       </v-container>
-
-      <v-snackbar
-        :timeout="timeout"
-        bottom
-        v-model="snackbar"
-      >
-        {{ deletedCourse }}
-      <v-btn color="yellow" dark flat @click.native="undoDeleteCourse">Undo</v-btn>
-      </v-snackbar>
     </div>
     <div v-if="!coursesExist">
       <h1 class="no-courses display-1">You don't have any courses set up!
@@ -76,6 +67,14 @@
         </v-btn>
       <span>Create course</span>
     </v-tooltip>
+    <v-snackbar
+      :timeout="timeout"
+      bottom
+      v-model="snackbar"
+    >
+      {{ deletedCourse }}
+      <v-btn color="yellow" dark flat @click.native="undoDeleteCourse">Undo</v-btn>
+    </v-snackbar>
   </div>
 
 </template>
@@ -90,22 +89,31 @@ export default {
       snackbar: false,
       timeout: 5000,
       deletedCourse: '',
-      deletionStack: [],
-      coursesExist: true
+      deletionStack: []
     };
   },
   methods: {
     navigateToCourse(id) {
       this.$router.push(`/courses/${id}`);
     },
-    deleteCourse(id) {
-      this.deletionStack.push(id);
-      this.deletedCourse = 'Deleted course.';
+    deleteCourse(courseToDelete) {
+      this.deletionStack.push(courseToDelete);
+      this.deletedCourse = `${courseToDelete.courseName} deleted.`;
       this.snackbar = true;
+      this.courses = this.courses.filter(course => course._id !== courseToDelete._id);
+
+      setTimeout(this.deleteCoursesInDB, 6000);
     },
     undoDeleteCourse() {
-      this.deletionStack.pop();
+      this.courses.push(this.deletionStack.pop());
       this.snackbar = false;
+    },
+    deleteCoursesInDB() {
+      // eslint-disable-next-line
+      for (const course of this.deletionStack) {
+        courseApi.deleteCourse(course);
+      }
+      this.deletionStack = [];
     },
     createCourse() {
       this.$router.push('/create-course/');
@@ -114,9 +122,13 @@ export default {
   created() {
     const self = this;
     courseApi.getCourses(courses => {
-      if (courses.length === 0) self.coursesExist = false;
       self.courses = courses;
     });
+  },
+  computed: {
+    coursesExist() {
+      return this.courses.length > 0;
+    }
   }
 };
 </script>

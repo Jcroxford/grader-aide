@@ -65,3 +65,19 @@ export function updateAssignment(courseId, assignment, callback) {
     .then(callback)
     .catch(callback);
 }
+
+export function deleteCourse(course, callback) {
+  axios
+    .delete(`${BASE_URL}/api/courses/${course._id}`)
+    .then(response => response.data)
+    .then(callback)
+    .catch(callback);
+}
+
+export function deleteAssignment(courseId, assignmentId, callback) {
+  axios
+    .delete(`${BASE_URL}/api/courses/${courseId}/assignment/${assignmentId}`)
+    .then(response => response.data)
+    .then(callback)
+    .catch(callback);
+}
