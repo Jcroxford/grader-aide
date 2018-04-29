@@ -102,7 +102,7 @@ export default {
       this.snackbar = true;
       this.courses = this.courses.filter(course => course._id !== courseToDelete._id);
 
-      setTimeout(this.deleteCoursesInDB, 6000);
+      setTimeout(this.deleteCoursesInDB, this.timeout + 1000);
     },
     undoDeleteCourse() {
       this.courses.push(this.deletionStack.pop());

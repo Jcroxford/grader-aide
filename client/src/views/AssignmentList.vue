@@ -121,7 +121,7 @@ export default {
         assignment => assignment._id !== assignmentToDelete._id
       );
 
-      setTimeout(this.deleteAssignmentsInDB, 6000);
+      setTimeout(this.deleteAssignmentsInDB, this.timeout + 1000);
     },
     undoDeleteAssignment() {
       this.assignments.push(this.deletionStack.pop());
