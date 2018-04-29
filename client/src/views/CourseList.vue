@@ -1,7 +1,7 @@
 <template >
   <div class="main-background" >
     <div v-if="coursesExist" class="nav-offset container width-restrictor">
-            <h1 class="display-1 centerize">All Courses</h1>
+      <h1 class="display-1 centerize">All Courses</h1>
 
       <v-container grid-list-md class="bottom-buffer">
         <v-layout row wrap>
@@ -9,7 +9,28 @@
             <v-card>
               <v-card-title>
                 <v-flex xs12>
-                  <span class="display-1">{{ course.courseId }} - {{ course.courseName }}</span>
+                  <!-- INLINE assignment name editing -->
+                  <template v-if="!courseEditable">
+                    <span @click="courseEditable = true" class="display-1">
+                      {{ course.courseId }} - {{ course.courseName }}</span>
+                  </template>
+                  <template v-else>
+                    <span class="display-1">
+                      <input
+                      class="display-1"
+                      style="width: 130px;"
+                      v-model="course.courseId"
+                      v-on:keyup.enter="updateCourse(course)"
+                      v-on:blur="updateCourse(course)"
+                    > - <input
+                      class="display-1"
+                      style="width: 550px;"
+                      v-model="course.courseName"
+                      v-on:keyup.enter="updateCourse(course)"
+                      v-on:blur="updateCourse(course)"
+                    ></span>
+
+                  </template>
                     </v-flex>
 
                   <v-flex
@@ -89,7 +110,8 @@ export default {
       snackbar: false,
       timeout: 5000,
       deletedCourse: '',
-      deletionStack: []
+      deletionStack: [],
+      courseEditable: false
     };
   },
   methods: {
@@ -117,6 +139,16 @@ export default {
     },
     createCourse() {
       this.$router.push('/create-course/');
+    },
+    updateCourse(courseToUpdate) {
+      this.courseEditable = false;
+
+      // on keyup.enter, this function will get called twice,
+      // once for keyup event then again for the blur event.
+      // therefore we should only call the api if the current event is a blur event
+      if (event.type === 'blur') {
+        courseApi.updateCourse(courseToUpdate);
+      }
     }
   },
   created() {

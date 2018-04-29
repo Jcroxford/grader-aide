@@ -66,6 +66,20 @@ export function updateAssignment(courseId, assignment, callback) {
     .catch(callback);
 }
 
+export function updateCourse(course, callback) {
+  axios
+    .put(`${BASE_URL}/api/courses/${course._id}`, {
+      _id: course._id,
+      courseName: course.courseName,
+      courseId: course.courseId,
+      assignments: course.assignments,
+      studentsEnrolled: course.studentsEnrolled
+    })
+    .then(response => response.data)
+    .then(callback)
+    .catch(callback);
+}
+
 export function deleteCourse(course, callback) {
   axios
     .delete(`${BASE_URL}/api/courses/${course._id}`)
