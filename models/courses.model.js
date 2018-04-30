@@ -43,6 +43,18 @@ function createCourse(course) {
   });
 }
 
+// fixme not tested
+function updateCourseById(_id, updates) {
+  const collection = db.collection('courses');
+
+  return collection.findOneAndUpdate(
+    { _id: ObjectId(_id) },
+    {
+      $set: { ...updates }
+    }
+  );
+}
+
 function destroyCourse(_id) {
   const collection = db.collection('courses');
 
