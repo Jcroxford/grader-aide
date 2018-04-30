@@ -7,9 +7,9 @@
         <template>
           <div class="login-div">
             <v-tabs
-              color="dark"
-              dark
-              slider-color="yellow"
+              color="yellow"
+              light
+              slider-color="black"
               centered
             >
             <v-tab
@@ -204,7 +204,7 @@ export default {
   width: 100%;
 }
 .navbar-offest {
-  padding-top: 100px;
+  margin-top: 25vh;
 }
 .login-div {
   vertical-align: 'center';
