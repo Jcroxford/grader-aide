@@ -1,20 +1,43 @@
 <template >
   <div class="main-background" >
     <div v-if="coursesExist" class="nav-offset container width-restrictor">
-      <v-container grid-list-md>
+      <h1 class="display-1 centerize">All Courses</h1>
+
+      <v-container grid-list-md class="bottom-buffer">
         <v-layout row wrap>
           <v-flex xs10 offset-xs1 v-for="course of courses" :key="course._id">
             <v-card>
               <v-card-title>
                 <v-flex xs12>
-                  <span class="display-1">{{ course.courseId }} - {{ course.courseName }}</span>
+                  <!-- INLINE assignment name editing -->
+                  <template v-if="!courseEditable">
+                    <span @click="courseEditable = true" class="display-1">
+                      {{ course.courseId }} - {{ course.courseName }}</span>
+                  </template>
+                  <template v-else>
+                    <span class="display-1">
+                      <input
+                      class="display-1"
+                      style="width: 130px;"
+                      v-model="course.courseId"
+                      v-on:keyup.enter="updateCourse(course)"
+                      v-on:blur="updateCourse(course)"
+                    > - <input
+                      class="display-1"
+                      style="width: 550px;"
+                      v-model="course.courseName"
+                      v-on:keyup.enter="updateCourse(course)"
+                      v-on:blur="updateCourse(course)"
+                    ></span>
+
+                  </template>
                     </v-flex>
 
                   <v-flex
                   xs4
                   >
                     <div class="assn-card-text">
-                      Total students enrolled: 9001
+                      Total students enrolled: {{course.studentsEnrolled.length}}
                     </div>
                   </v-flex>
 
@@ -32,7 +55,7 @@
                   <v-btn
                     flat
                     color="red"
-                    @click="deleteCourse(course._id)"
+                    @click="deleteCourse(course)"
                   >
                     Delete
                   </v-btn>
@@ -44,15 +67,6 @@
           </v-flex>
         </v-layout>
       </v-container>
-
-      <v-snackbar
-        :timeout="timeout"
-        bottom
-        v-model="snackbar"
-      >
-        {{ deletedCourse }}
-      <v-btn color="yellow" dark flat @click.native="snackbar = false">Undo</v-btn>
-      </v-snackbar>
     </div>
     <div v-if="!coursesExist">
       <h1 class="no-courses display-1">You don't have any courses set up!
@@ -74,6 +88,14 @@
         </v-btn>
       <span>Create course</span>
     </v-tooltip>
+    <v-snackbar
+      :timeout="timeout"
+      bottom
+      v-model="snackbar"
+    >
+      {{ deletedCourse }}
+      <v-btn color="yellow" dark flat @click.native="undoDeleteCourse">Undo</v-btn>
+    </v-snackbar>
   </div>
 
 </template>
@@ -89,28 +111,56 @@ export default {
       timeout: 5000,
       deletedCourse: '',
       deletionStack: [],
-      coursesExist: true
+      courseEditable: false
     };
   },
   methods: {
     navigateToCourse(id) {
       this.$router.push(`/courses/${id}`);
     },
-    deleteCourse(id) {
-      this.deletionStack.push(id);
-      this.deletedCourse = 'Deleted course.';
+    deleteCourse(courseToDelete) {
+      this.deletionStack.push(courseToDelete);
+      this.deletedCourse = `${courseToDelete.courseName} deleted.`;
       this.snackbar = true;
+      this.courses = this.courses.filter(course => course._id !== courseToDelete._id);
+
+      setTimeout(this.deleteCoursesInDB, this.timeout + 1000);
+    },
+    undoDeleteCourse() {
+      this.courses.push(this.deletionStack.pop());
+      this.snackbar = false;
+    },
+    deleteCoursesInDB() {
+      // eslint-disable-next-line
+      for (const course of this.deletionStack) {
+        courseApi.deleteCourse(course);
+      }
+      this.deletionStack = [];
     },
     createCourse() {
       this.$router.push('/create-course/');
+    },
+    updateCourse(courseToUpdate) {
+      this.courseEditable = false;
+
+      // on keyup.enter, this function will get called twice,
+      // once for keyup event then again for the blur event.
+      // therefore we should only call the api if the current event is a blur event
+      if (event.type === 'blur') {
+        courseApi.updateCourse(courseToUpdate);
+      }
     }
   },
   created() {
     const self = this;
     courseApi.getCourses(courses => {
-      if (courses.length === 0) self.coursesExist = false;
       self.courses = courses;
     });
+  },
+  computed: {
+    coursesExist() {
+      return this.courses.length > 0;
+    }
   }
 };
 </script>
@@ -147,7 +197,16 @@ export default {
   margin-bottom: 35px;
 }
 
+.centerize {
+  text-align: center;
+  margin-bottom: 5vh;
+}
+
 .no-courses {
   text-align: center;
+}
+
+.bottom-buffer {
+  margin-bottom: 10vh;
 }
 </style>

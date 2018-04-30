@@ -23,7 +23,7 @@ function preview() {
 
   return collection
     .find({})
-    .project({ courseName: 1, courseId: 1 })
+    .project({ courseName: 1, courseId: 1 , studentsEnrolled: 1})
     .toArray();
 }
 

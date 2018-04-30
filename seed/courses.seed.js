@@ -4,7 +4,8 @@ module.exports = [
   {
     _id: new ObjectId(),
     courseName: 'Object Oriented Programming',
-    courseId: 'cs1410',
+    courseId: 'CS1410',
+    studentsEnrolled: [],
     assignments: [
       {
         _id: new ObjectId(),
@@ -93,7 +94,8 @@ module.exports = [
   {
     _id: new ObjectId(),
     courseName: 'Data Structures and Algorithms',
-    courseId: 'cs2420',
+    courseId: 'CS2420',
+    studentsEnrolled: [],
     assignments: [
       {
         _id: new ObjectId(),
@@ -182,6 +184,8 @@ module.exports = [
   {
     _id: new ObjectId(),
     courseName: 'Fundamentals of Programming',
-    courseId: 'cs1400'
+    courseId: 'CS1400',
+    studentsEnrolled: [],
+    assignments: []
   }
 ];

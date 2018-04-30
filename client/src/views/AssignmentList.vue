@@ -1,7 +1,8 @@
 <template>
   <div class="main-background">
-    <div v-if="assignmentsExist" class="nav-offset container width-restrictor">
-      <v-container grid-list-md>
+    <div v-if="assignmentsExist && loaded" class="nav-offset container width-restrictor">
+      <h1 class="display-1 centerize">{{parentCourse.courseName}} assignments</h1>
+      <v-container grid-list-md class="bottom-buffer">
         <v-layout row wrap>
           <v-flex xs10 offset-xs1 v-for="assignment of assignments" :key="assignment._id">
             <v-card>
@@ -14,10 +15,10 @@
                   xs4
                   >
                     <div class="assn-card-text">
-                      Total points: 69
+                      Total points: {{assignment.totalPts}}
                     </div>
                   </v-flex>
-                  <v-flex
+                  <!-- <v-flex
                   xs4
                   >
                     <div class="assn-card-text">
@@ -30,10 +31,10 @@
                     <div class="assn-card-text">
                       Due Date: 6/9/1969
                     </div>
-                  </v-flex>
+                  </v-flex> -->
 
                   <v-flex
-                  offset-xs8
+                  offset-xs7
                   align-content-space-between
                   >
                   <v-btn
@@ -46,7 +47,7 @@
                   <v-btn
                     flat
                     color="red"
-                    @click="deleteAssignment(assignment._id)"
+                    @click="deleteAssignment(assignment)"
                   >
                     Delete
                   </v-btn>
@@ -59,16 +60,9 @@
         </v-layout>
       </v-container>
 
-      <v-snackbar
-        :timeout="timeout"
-        bottom
-        v-model="snackbar"
-      >
-        {{ deletedAssignment }}
-      <v-btn color="yellow" dark flat @click.native="snackbar = false">Undo</v-btn>
-      </v-snackbar>
+
     </div>
-    <div v-if="!assignmentsExist">
+    <div v-if="!assignmentsExist && loaded">
       <h1 class="no-assignments display-1">No assignments exist for {{parentCourse.courseName}}.
         <br> Please create one by clicking the button below.</h1>
     </div>
@@ -88,6 +82,14 @@
         </v-btn>
       <span>Create assignment</span>
     </v-tooltip>
+    <v-snackbar
+      :timeout="timeout"
+      bottom
+      v-model="snackbar"
+    >
+      {{ deletedAssignment }}
+      <v-btn color="yellow" dark flat @click.native="undoDeleteAssignment">Undo</v-btn>
+    </v-snackbar>
   </div>
 
 </template>
@@ -103,21 +105,36 @@ export default {
       timeout: 5000,
       deletedAssignment: '',
       deletionStack: [],
-      assignmentsExist: true,
-      parentCourse: null
+      parentCourse: null,
+      loaded: false
     };
   },
   methods: {
     navigateToAssignment(id) {
       this.$router.push(`/course/${this.parentCourse._id}/grade-assignment/${id}`);
     },
-    deleteAssignment(id) {
-      this.deletionStack.push(id);
-      this.deletedAssignment = 'Deleted assignment.';
+    deleteAssignment(assignmentToDelete) {
+      this.deletionStack.push(assignmentToDelete);
+      this.deletedAssignment = `${assignmentToDelete.name} deleted.`;
       this.snackbar = true;
+      this.assignments = this.assignments.filter(
+        assignment => assignment._id !== assignmentToDelete._id
+      );
+
+      setTimeout(this.deleteAssignmentsInDB, this.timeout + 1000);
+    },
+    undoDeleteAssignment() {
+      this.assignments.push(this.deletionStack.pop());
+      this.snackbar = false;
+    },
+    deleteAssignmentsInDB() {
+      // eslint-disable-next-line
+      for (const assignment of this.deletionStack) {
+        courseApi.deleteAssignment(this.parentCourse._id, assignment._id);
+      }
+      this.deletionStack = [];
     },
     createAssignment() {
-      // eslint-disable-next-line
       this.$router.push(`/courses/${this.parentCourse._id}/create-assignment/`);
     }
   },
@@ -126,11 +143,15 @@ export default {
     const { courseId } = this.$route.params;
 
     courseApi.getCourse(courseId, course => {
-      if (course.assignments.length === 0) self.assignmentsExist = false;
       self.parentCourse = course;
       self.assignments = course.assignments;
-      console.log('self.assignments: ', self.assignments);
+      self.loaded = true;
     });
+  },
+  computed: {
+    assignmentsExist() {
+      return this.assignments.length > 0;
+    }
   }
 };
 </script>
@@ -158,8 +179,9 @@ export default {
   max-width: 75%;
 }
 
-.assn-card-text {
-  /* padding-left: 15px; */
+.centerize {
+  text-align: center;
+  margin-bottom: 5vh;
 }
 
 .fab-button {
@@ -169,5 +191,9 @@ export default {
 
 .no-assignments {
   text-align: center;
+}
+
+.bottom-buffer {
+  margin-bottom: 10vh;
 }
 </style>
