@@ -137,5 +137,6 @@ module.exports = {
   updateAssignment,
   destroyAssignment,
   getCourseAssignments,
-  findCourseAssignmentById
+  findCourseAssignmentById,
+  updateCourseById
 };
