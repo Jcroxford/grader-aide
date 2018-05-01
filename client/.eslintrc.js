@@ -55,6 +55,7 @@ module.exports = {
     'no-param-reassign': 0,
     'space-before-function-paren': 0,
     'import/prefer-default-export': 0,
+    'no-underscore-dangle': 0,
     'no-return-assign': 0,
     'arrow-parens': ['error', 'as-needed']
   }

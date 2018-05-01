@@ -7,6 +7,7 @@ const cors = require('cors');
 
 // controllers/routes
 const assignmentRouter = require('./routes/assignment.routes.js');
+const courseRouter = require('./routes/course.routes.js');
 const authRouter = require('./routes/auth.routes');
 
 // db
@@ -30,7 +31,7 @@ app.use(express.static('public'));
 
 // routes
 app.use('/api/auth', authRouter);
-app.use('/api', assignmentRouter);
+app.use('/api', courseRouter);
 
 const port = process.env.PORT || 3001;
 
@@ -39,6 +40,13 @@ db
   .then(() => {
     console.log('\nconnection to database established\n');
 
+    if (process.env.NODE_ENV === 'development') {
+      const seedDB = require('./seed/seedDevServer');
+
+      return seedDB().then(() => console.log('dev server has been reseeded successfully\n'));
+    }
+  })
+  .then(() => {
     app.listen(port, () => {
       console.log(`Listening on http://localhost:${port}\n`);
     });
