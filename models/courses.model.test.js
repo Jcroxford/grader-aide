@@ -29,7 +29,8 @@ describe('courses.models.js', () => {
       const expected = coursesSeed.map(course => ({
         _id: course._id,
         courseName: course.courseName,
-        courseId: course.courseId
+        courseId: course.courseId,
+        studentsEnrolled: course.studentsEnrolled
       }));
 
       return courses.preview().then(courses => {
@@ -99,6 +100,13 @@ describe('courses.models.js', () => {
         .then(createdCourse => {
           expect(createdCourse).toMatchObject(course);
         });
+    });
+  });
+
+  describe('updateCourse()', () => {
+    it('updates only specified changes to a given course', () => {
+      const courseId = coursesSeed[0]._id;
+      const course = coursesSeed[0];
     });
   });
 
