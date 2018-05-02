@@ -10,12 +10,26 @@
 </template>
 
 <script>
+import axiosBase from '@/utils/requestBase';
+
 import NavBar from '@/components/NavBar';
 
 export default {
   name: 'App',
   components: {
     NavBar
+  },
+  methods: {
+    // .then not needed because we only care if there is an error during authentication
+    validateAuthToken() {
+      axiosBase.get('/api/auth/validate-token').catch(() => {
+        window.localStorage.removeItem('authorization');
+        this.$router.push({ path: '/login' });
+      });
+    }
+  },
+  created() {
+    this.validateAuthToken();
   }
 };
 </script>

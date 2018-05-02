@@ -52,4 +52,8 @@ router.post('/login', requireLogin, (req, res) => {
   });
 });
 
+router.get('/validate-token', requireAuth, (req, res) => {
+  res.send();
+});
+
 module.exports = router;
