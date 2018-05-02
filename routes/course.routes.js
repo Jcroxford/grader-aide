@@ -7,6 +7,7 @@ const Courses = require('../models/courses.model');
 
 //COURSES---------------------------------------------------------
 //CREATE
+
 router.post('/courses', requireAuth, (req, res) => {
   Courses.createCourse(req.body)
     .then(id => {
@@ -61,6 +62,7 @@ router.put('/courses/:id', requireAuth, (req, res) => {
 });
 
 //DELETE
+// fixme
 router.delete('/courses/:id', requireAuth, (req, res) => {
   const { id } = req.params;
 
@@ -76,6 +78,7 @@ router.delete('/courses/:id', requireAuth, (req, res) => {
 //ASSIGNMENTS---------------------------------------------------------
 //CREATE
 //assignment create @ courseId
+// fixme
 router.post('/course/:courseId/assignment', requireAuth, (req, res) => {
   const { courseId } = req.params;
   Courses.createAssignment(courseId, req.body)
@@ -90,6 +93,7 @@ router.post('/course/:courseId/assignment', requireAuth, (req, res) => {
 });
 
 //READ
+// fixme
 router.get('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res) => {
   const { courseId, assignmentId } = req.params;
 
@@ -106,6 +110,7 @@ router.get('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res
 });
 
 //UPDATE
+// fixme
 router.put('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res) => {
   const { courseId, assignmentId } = req.params;
 
@@ -119,6 +124,7 @@ router.put('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res
 });
 
 //DELETE
+// fixme
 router.delete('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res) => {
   const { courseId, assignmentId } = req.params;
 
