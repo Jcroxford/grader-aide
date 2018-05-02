@@ -5,6 +5,8 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 
 const Courses = require('../models/courses.model');
 
+//COURSES---------------------------------------------------------
+//CREATE
 router.post('/courses', requireAuth, (req, res) => {
   Courses.createCourse(req.body)
     .then(id => {
@@ -17,6 +19,7 @@ router.post('/courses', requireAuth, (req, res) => {
     });
 });
 
+//READ
 router.get('/courses', requireAuth, function(req, res, next) {
   Courses.preview()
     .then(res.json.bind(res))
@@ -42,6 +45,51 @@ router.get('/courses/:id', requireAuth, (req, res) => {
     });
 });
 
+//UPDATE
+router.put('/courses/:id', requireAuth, (req, res) => {
+  const { id } = req.params;
+
+  Courses.updateCourseById(id, req.body)
+    .then(() => res.status(204).send())
+    .catch(err => {
+      console.log(err);
+
+      res.status(500).json({
+        error: 'unable to udpate assignment'
+      });
+    });
+});
+
+//DELETE
+router.delete('/courses/:id', requireAuth, (req, res) => {
+  const { id } = req.params;
+
+  Courses.destroyCourse(id)
+    .then(() => res.status(200).send())
+    .catch(err => {
+      console.log(err);
+
+      res.status(500).json({ error: 'unable to remove assignment' });
+    });
+});
+
+//ASSIGNMENTS---------------------------------------------------------
+//CREATE
+//assignment create @ courseId
+router.post('/course/:courseId/assignment', requireAuth, (req, res) => {
+  const { courseId } = req.params;
+  Courses.createAssignment(courseId, req.body)
+    .then(id => {
+      res.json({ id });
+    })
+    .catch(err => {
+      console.log(err);
+
+      res.status(500).json({ error: 'unable to create assignment' });
+    });
+});
+
+//READ
 router.get('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res) => {
   const { courseId, assignmentId } = req.params;
 
@@ -57,44 +105,7 @@ router.get('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res
     });
 });
 
-router.delete('/courses/:id', requireAuth, (req, res) => {
-  const { id } = req.params;
-
-  Courses.destroyCourse(id)
-    .then(() => res.status(200).send())
-    .catch(err => {
-      console.log(err);
-
-      res.status(500).json({ error: 'unable to remove assignment' });
-    });
-});
-
-router.delete('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res) => {
-  const { courseId, assignmentId } = req.params;
-
-  Courses.destroyAssignment(courseId, assignmentId)
-    .then(() => res.status(200).send())
-    .catch(err => {
-      console.log(err);
-
-      res.status(500).json({ error: 'unable to remove assignment' });
-    });
-});
-
-router.put('/courses/:id', requireAuth, (req, res) => {
-  const { id } = req.params;
-
-  Courses.updateCourseById(id, req.body)
-    .then(() => res.status(204).send())
-    .catch(err => {
-      console.log(err);
-
-      res.status(500).json({
-        error: 'unable to udpate assignment'
-      });
-    });
-});
-
+//UPDATE
 router.put('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res) => {
   const { courseId, assignmentId } = req.params;
 
@@ -107,17 +118,16 @@ router.put('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res
     });
 });
 
-//assignment create @ courseId
-router.post('/course/:courseId/assignment', requireAuth, (req, res) => {
-  const { courseId } = req.params;
-  Courses.createAssignment(courseId, req.body)
-    .then(id => {
-      res.json({ id });
-    })
+//DELETE
+router.delete('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res) => {
+  const { courseId, assignmentId } = req.params;
+
+  Courses.destroyAssignment(courseId, assignmentId)
+    .then(() => res.status(200).send())
     .catch(err => {
       console.log(err);
 
-      res.status(500).json({ error: 'unable to create assignment' });
+      res.status(500).json({ error: 'unable to remove assignment' });
     });
 });
 
