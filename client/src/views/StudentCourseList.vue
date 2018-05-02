@@ -9,28 +9,9 @@
               <v-card-title>
                 <v-flex xs12>
                   <!-- INLINE assignment name editing -->
-                  <template v-if="!courseEditable">
-                    <span @click="courseEditable = true" class="display-1">
-                      {{ course.courseId }} - {{ course.courseName }}</span>
-                  </template>
-                  <template v-else>
                     <span class="display-1">
-                      <input
-                      class="display-1"
-                      style="width: 130px;"
-                      v-model="course.courseId"
-                      v-on:keyup.enter="updateCourse(course)"
-                      v-on:blur="updateCourse(course)"
-                    > - <input
-                      class="display-1"
-                      style="width: 550px;"
-                      v-model="course.courseName"
-                      v-on:keyup.enter="updateCourse(course)"
-                      v-on:blur="updateCourse(course)"
-                    ></span>
-                  </template>
+                      {{ course.courseId }} - {{ course.courseName }}</span>
                     </v-flex>
-
                   <v-flex
                   xs4
                   >
@@ -80,13 +61,6 @@ export default {
   methods: {
     navigateToCourse(id) {
       this.$router.push(`student/courses/${id}`);
-    },
-    undoDeleteCourse() {
-      this.courses.push(this.deletionStack.pop());
-      this.snackbar = false;
-    },
-    createCourse() {
-      this.$router.push('/create-course/');
     }
   },
   created() {
