@@ -1,21 +1,20 @@
-// load env variables
-require('../config/config');
-
-// db connection helper methods
+const request = require('supertest');
+const app = require('../app');
 const db = require('../db');
-const ObjectId = require('mongodb').ObjectID;
+const passport = require('passport');
+
+const requireAuth = passport.authenticate('jwt', { session: false });
 
 // seed data
 const coursesSeed = require('../seed/courses.seed.js');
 
-const app = require('../server');
-
-const supertest = require('supertest');
-
 describe('get /courses', function() {
   it('returns all the courses', function(done) {
-    supertest(app)
-      .get('/courses')
-      .expect(200);
+    request(app)
+      .get('/api/courses', requireAuth)
+      .expect(res => {
+        expect(res.body).toExist();
+      })
+      .expect(200, done);
   });
 });
