@@ -2,6 +2,12 @@
   <div>
     <div class="assignment-container main-background">
       <div class="navbar-offset">
+         <v-btn
+          class="backBtn"
+          color="blue"
+          @click="navigateToCourse(parentCourseId)">
+              <v-icon>chevron_left</v-icon>
+        </v-btn>
       <v-container grid-list-md>
         <v-layout row>
           <v-flex xs12>
@@ -9,9 +15,7 @@
               <v-card-title primary-title>
                 <v-layout row wrap>
                   <v-flex xs12>
-                  <!-- INLINE assignment name editing -->
                     <p class="display-3" >{{ assignmentName }}</p>
-                  <!-- INLINE total points editing -->
                     <h5
                       class="title mb-3"
                       >
@@ -153,6 +157,9 @@ export default {
         ...comment,
         checked: false
       }));
+    },
+    navigateToCourse(id) {
+      this.$router.push(`/student/courses/${id}`);
     }
   },
   computed: {
@@ -183,7 +190,6 @@ export default {
   created() {
     let self = this;
     const { courseId, assignmentId } = this.$route.params;
-
     self.parentCourseId = courseId;
 
     CourseApi.getAssignment(courseId, assignmentId, function(res) {
@@ -232,5 +238,7 @@ export default {
 .navbar-offset {
   margin-top: 10vh;
   margin-bottom: 10vh;
+}
+.backBtn {
 }
 </style>
