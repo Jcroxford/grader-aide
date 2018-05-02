@@ -10,40 +10,13 @@
                 <v-layout row wrap>
                   <v-flex xs12>
                   <!-- INLINE assignment name editing -->
-                  <template v-if="!assignmentEditable">
-                    <p class="display-3" @click="assignmentEditable = true">{{ assignmentName }}</p>
-                  </template>
-                  <template v-else>
-                    <input
-                      class="display-3"
-                      style="display: block;"
-                      v-model="assignmentName"
-                      v-on:keyup.enter="updateAssignmentName()"
-                      v-on:blur="updateAssignmentName()"
-                    >
-                  </template>
-
+                    <p class="display-3" >{{ assignmentName }}</p>
                   <!-- INLINE total points editing -->
-                  <template v-if="!totalPtsEditable">
                     <h5
                       class="title mb-3"
-                      @click="totalPtsEditable = true"
-                    >
+                      >
                       Total points possible: {{totalPts}}
                     </h5>
-                  </template>
-                  <template v-else>
-                    <h5 style="display:inline;" class="title mb-3">Total Points Possible:
-                      <input
-                        style="width:100px; font-size:24px;"
-                        type="number"
-                        v-model="totalPts"
-                        v-on:keyup.enter="updateTotalPts()"
-                        v-on:blur="updateTotalPts()"
-                      />
-                    </h5>
-                  </template>
-
                   <v-divider></v-divider>
                   </v-flex>
 
