@@ -1,38 +1,6 @@
-const express = require('express');
-const logger = require('morgan');
-const helmet = require('helmet');
-const bodyParser = require('body-parser');
-const path = require('path');
-const cors = require('cors');
+const app = require('./app');
 
-// controllers/routes
-const courseRouter = require('./routes/course.routes.js');
-const authRouter = require('./routes/auth.routes');
-
-// db
 const db = require('./db');
-
-// load .env variables
-require('./config/config');
-
-// auth middleware
-const passport = require('./services/passport');
-
-let app = express();
-
-// middleware
-app.use(helmet());
-app.use(cors());
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(passport.initialize());
-app.use(express.static('public'));
-
-// routes
-app.use('/api/auth', authRouter);
-app.use('/api', courseRouter);
-
-const port = process.env.PORT || 3001;
 
 db
   .connect()
@@ -46,6 +14,7 @@ db
     }
   })
   .then(() => {
+    const port = process.env.PORT || 3001;
     app.listen(port, () => {
       console.log(`Listening on http://localhost:${port}\n`);
     });
