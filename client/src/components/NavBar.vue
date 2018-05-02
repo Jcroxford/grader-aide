@@ -31,9 +31,6 @@ export default {
       this.authType = type;
     },
     destrouAuthToken() {
-      const token = window.localStorage.getItem('authorization');
-      if (!token) return;
-
       window.localStorage.removeItem('authorization');
       this.$router.push({ path: '/login' });
     },
