@@ -1,8 +1,14 @@
 <template>
   <div>
     <div class="assignment-container main-background">
+      <v-btn
+          class="backBtn"
+          color="light-green accent-2"
+          light
+          @click="navigateToCourse(parentCourseId)">
+            <v-icon>chevron_left</v-icon>
+      </v-btn>
       <div class="navbar-offset">
-
       <!-- popup for editing an assignment's rules and comments -->
       <edit-assignment-modal
         v-if="displayEdit"
@@ -292,6 +298,9 @@ export default {
       };
 
       CourseApi.updateAssignment(this.parentCourseId, assignment, res => {});
+    },
+    navigateToCourse(id) {
+      this.$router.push(`/courses/${id}`);
     }
   },
   computed: {
@@ -371,5 +380,10 @@ export default {
 .navbar-offset {
   margin-top: 10vh;
   margin-bottom: 10vh;
+}
+.backBtn {
+  position: absolute;
+  top: 40px;
+  left: 20px;
 }
 </style>

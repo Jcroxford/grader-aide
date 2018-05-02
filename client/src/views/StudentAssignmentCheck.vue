@@ -3,7 +3,8 @@
     <div class="assignment-container main-background">
       <v-btn
           class="backBtn"
-          color="green lighten-1"
+          color="light-green accent-2"
+          light
           @click="navigateToCourse(parentCourseId)">
             <v-icon>chevron_left</v-icon>
       </v-btn>
@@ -11,7 +12,7 @@
       <v-container grid-list-xl class="myCard" > <!-- this is the thing that needs to stretch -->
         <v-layout row>
           <v-flex xs12>
-            <v-card >
+            <v-card>
               <v-card-title primary-title>
                 <v-layout row wrap>
                   <v-flex xs12>
@@ -32,10 +33,10 @@
                   <!-- checklist -->
                   <v-flex xs6>
                         <div slot="header">
-                          <v-icon class="mr-2">playlist_add_check</v-icon>
-                           <span class="pr-5">Rules</span>
                         </div>
                         <v-card>
+                          <v-icon class="mr-2">playlist_add_check</v-icon>
+                           <span class="pr-5">Rules</span>
                           <v-card-text>
                             <v-checkbox
                               v-for="rule of rules"
