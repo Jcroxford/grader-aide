@@ -20,7 +20,7 @@ let app = express();
 // middleware
 app.use(helmet());
 app.use(cors());
-app.use(logger('dev'));
+if (process.env.NODE_ENV === 'development') app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(express.static('public'));
