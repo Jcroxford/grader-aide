@@ -1,8 +1,11 @@
 const router = require('express').Router();
+const passport = require('passport');
+
+const requireAuth = passport.authenticate('jwt', { session: false });
 
 const Courses = require('../models/courses.model');
 
-router.post('/courses', (req, res) => {
+router.post('/courses', requireAuth, (req, res) => {
   Courses.createCourse(req.body)
     .then(id => {
       res.json({ id });
@@ -14,7 +17,7 @@ router.post('/courses', (req, res) => {
     });
 });
 
-router.get('/courses', function(req, res, next) {
+router.get('/courses', requireAuth, function(req, res, next) {
   Courses.preview()
     .then(res.json.bind(res))
     .catch(err => {
@@ -24,7 +27,7 @@ router.get('/courses', function(req, res, next) {
     });
 });
 
-router.get('/courses/:id', (req, res) => {
+router.get('/courses/:id', requireAuth, (req, res) => {
   const { id } = req.params;
 
   Courses.findById(id)
@@ -39,7 +42,7 @@ router.get('/courses/:id', (req, res) => {
     });
 });
 
-router.get('/courses/:courseId/assignment/:assignmentId', (req, res) => {
+router.get('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res) => {
   const { courseId, assignmentId } = req.params;
 
   Courses.findCourseAssignmentById(courseId, assignmentId)
@@ -54,7 +57,7 @@ router.get('/courses/:courseId/assignment/:assignmentId', (req, res) => {
     });
 });
 
-router.delete('/courses/:id', (req, res) => {
+router.delete('/courses/:id', requireAuth, (req, res) => {
   const { id } = req.params;
 
   Courses.destroyCourse(id)
@@ -66,7 +69,7 @@ router.delete('/courses/:id', (req, res) => {
     });
 });
 
-router.delete('/courses/:courseId/assignment/:assignmentId', (req, res) => {
+router.delete('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res) => {
   const { courseId, assignmentId } = req.params;
 
   Courses.destroyAssignment(courseId, assignmentId)
@@ -78,7 +81,7 @@ router.delete('/courses/:courseId/assignment/:assignmentId', (req, res) => {
     });
 });
 
-router.put('/courses/:id', (req, res) => {
+router.put('/courses/:id', requireAuth, (req, res) => {
   const { id } = req.params;
 
   Courses.updateCourseById(id, req.body)
@@ -92,7 +95,7 @@ router.put('/courses/:id', (req, res) => {
     });
 });
 
-router.put('/courses/:courseId/assignment/:assignmentId', (req, res) => {
+router.put('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res) => {
   const { courseId, assignmentId } = req.params;
 
   Courses.updateAssignment(courseId, assignmentId, req.body)
@@ -105,7 +108,7 @@ router.put('/courses/:courseId/assignment/:assignmentId', (req, res) => {
 });
 
 //assignment create @ courseId
-router.post('/course/:courseId/assignment', (req, res) => {
+router.post('/course/:courseId/assignment', requireAuth, (req, res) => {
   const { courseId } = req.params;
   Courses.createAssignment(courseId, req.body)
     .then(id => {
