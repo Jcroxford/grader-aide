@@ -102,7 +102,7 @@ describe('get /courses', function() {
 
           const addedCourse = await courseCollection.findOne({ _id: ObjectId(res.body.id) });
 
-          return expect(addedCourse).toMatchObject(course);
+          expect(addedCourse).toMatchObject(course);
         });
     });
   });
@@ -122,7 +122,7 @@ describe('get /courses', function() {
         .expect(async () => {
           const course = await courseCollection.findOne({ _id: ObjectId(courseId) });
 
-          expect(course).toMatchObject(changes);
+          expect(course.courseName).toBe(changes.courseName);
         });
     });
 
@@ -137,9 +137,5 @@ describe('get /courses', function() {
         .send(changes)
         .expect(500);
     });
-  });
-
-  describe('DELETE /course/:id', () => {
-    it('removes course if it exists', () => {});
   });
 });
