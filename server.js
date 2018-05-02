@@ -6,7 +6,6 @@ const path = require('path');
 const cors = require('cors');
 
 // controllers/routes
-const assignmentRouter = require('./routes/assignment.routes.js');
 const courseRouter = require('./routes/course.routes.js');
 const authRouter = require('./routes/auth.routes');
 

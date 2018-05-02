@@ -126,8 +126,9 @@
 </template>
 
 <script>
-import axios from 'axios';
 import * as jwt from 'jsonwebtoken';
+
+import axiosBase from '@/utils/requestBase';
 
 export default {
   data() {
@@ -156,8 +157,8 @@ export default {
   methods: {
     login() {
       const self = this;
-      axios
-        .post('http://localhost:3000/api/auth/login', {
+      axiosBase
+        .post('/api/auth/login', {
           email: self.email,
           password: self.password
         })
@@ -166,8 +167,8 @@ export default {
     },
     register() {
       const self = this;
-      axios
-        .post('http://localhost:3000/api/auth/signup', {
+      axiosBase
+        .post('/api/auth/signup', {
           name: self.name,
           email: self.email,
           password: self.password,

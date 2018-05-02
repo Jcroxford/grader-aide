@@ -1,10 +1,8 @@
-import axios from 'axios';
-
-const BASE_URL = 'http://localhost:3000';
+import axiosBase from '@/utils/requestBase';
 
 export function createCourse(course, callback) {
-  axios
-    .post(`${BASE_URL}/api/courses/`, {
+  axiosBase
+    .post('/api/courses/', {
       courseName: course.courseName,
       courseId: course.courseId,
       assignments: course.assignments,
@@ -16,32 +14,32 @@ export function createCourse(course, callback) {
 }
 
 export function getCourses(callback) {
-  axios
-    .get(`${BASE_URL}/api/courses`)
+  axiosBase
+    .get('/api/courses')
     .then(response => response.data)
     .then(callback)
     .catch(callback);
 }
 
 export function getCourse(id, callback) {
-  axios
-    .get(`${BASE_URL}/api/courses/${id}`)
+  axiosBase
+    .get(`/api/courses/${id}`)
     .then(response => response.data)
     .then(callback)
     .catch(callback);
 }
 
 export function getAssignment(courseId, assignmentId, callback) {
-  axios
-    .get(`${BASE_URL}/api/courses/${courseId}/assignment/${assignmentId}`)
+  axiosBase
+    .get(`/api/courses/${courseId}/assignment/${assignmentId}`)
     .then(response => response.data)
     .then(callback)
     .catch(callback);
 }
 
 export function createAssignment(courseId, assignment, callback) {
-  axios
-    .post(`${BASE_URL}/api/course/${courseId}/assignment`, {
+  axiosBase
+    .post(`/api/course/${courseId}/assignment`, {
       name: assignment.name,
       totalPts: assignment.totalPts,
       rules: assignment.rules,
@@ -53,8 +51,8 @@ export function createAssignment(courseId, assignment, callback) {
 }
 
 export function updateAssignment(courseId, assignment, callback) {
-  axios
-    .put(`${BASE_URL}/api/courses/${courseId}/assignment/${assignment._id}`, {
+  axiosBase
+    .put(`/api/courses/${courseId}/assignment/${assignment._id}`, {
       _id: assignment._id,
       name: assignment.assignmentName,
       totalPts: assignment.totalPts,
@@ -67,8 +65,8 @@ export function updateAssignment(courseId, assignment, callback) {
 }
 
 export function updateCourse(course, callback) {
-  axios
-    .put(`${BASE_URL}/api/courses/${course._id}`, {
+  axiosBase
+    .put(`/api/courses/${course._id}`, {
       courseName: course.courseName,
       courseId: course.courseId,
       assignments: course.assignments,
@@ -80,16 +78,16 @@ export function updateCourse(course, callback) {
 }
 
 export function deleteCourse(course, callback) {
-  axios
-    .delete(`${BASE_URL}/api/courses/${course._id}`)
+  axiosBase
+    .delete(`/api/courses/${course._id}`)
     .then(response => response.data)
     .then(callback)
     .catch(callback);
 }
 
 export function deleteAssignment(courseId, assignmentId, callback) {
-  axios
-    .delete(`${BASE_URL}/api/courses/${courseId}/assignment/${assignmentId}`)
+  axiosBase
+    .delete(`/api/courses/${courseId}/assignment/${assignmentId}`)
     .then(response => response.data)
     .then(callback)
     .catch(callback);

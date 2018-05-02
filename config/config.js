@@ -1,3 +1,5 @@
+// fixme refactor options to be in a js file so secret can remade after every server bounce
+
 const env = process.env.NODE_ENV || 'development';
 
 if (env === 'development' || env === 'test') {
