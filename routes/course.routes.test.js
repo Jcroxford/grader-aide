@@ -14,7 +14,7 @@ function deepCopy(x) {
   return JSON.parse(JSON.stringify(x));
 }
 
-describe('get /courses', function() {
+describe('courses.routes.js', function() {
   beforeAll(() => db.connect());
   afterAll(() => db.close());
 
@@ -141,5 +141,60 @@ describe('get /courses', function() {
 
   describe('DELETE /course/:id', () => {
     it('removes course if it exists', () => {});
+  });
+
+  describe('PUT /courses/:courseId/assignment/:assignmentId', () => {
+    it('updates a course if given a valid id', () => {
+      const courseId = coursesSeed[0]._id.toHexString();
+      const assignmentId = coursesSeed[0].assignments[0]._id.toHexString();
+      const changes = {
+        totalPts: 9001
+      };
+
+      return request(app)
+        .put(`/api/courses/${courseId}/assignment/${assignmentId}`)
+        .set('authorization', authToken)
+        .send(changes)
+        .expect(204)
+        .expect(async () => {
+          const course = await courseCollection.findOne({ _id: ObjectId(courseId) });
+
+          expect(course.assignments[0]).toMatchObject(changes);
+        });
+    });
+
+    it('returns 500 status code if given an invalid or unused id', () => {
+      const changes = {
+        totalPts: 9001
+      };
+      const courseId = coursesSeed[0]._id.toHexString();
+      const assignmentId = coursesSeed[0].assignments[0]._id.toHexString();
+
+      return request(app)
+        .put(`/api/courses/${courseId}/assignment/invalid-id`)
+        .set('authorization', authToken)
+        .send(changes)
+        .expect(500);
+    });
+  });
+
+  describe('DELETE /courses/:courseId/assignment/:assignmentId', () => {
+    it('removes course if it exists', () => {
+      const courseId = coursesSeed[0]._id.toHexString();
+      const assignmentId = coursesSeed[0].assignments[0]._id.toHexString();
+
+      return request(app)
+        .delete(`/api/courses/${courseId}/assignment/${assignmentId}`)
+        .set('authorization', authToken)
+        .expect(204);
+    });
+
+    it('returns 500 status code if given an invalid or unused id', () => {
+      const courseId = coursesSeed[0]._id.toHexString();
+      return request(app)
+        .delete(`/api/courses/${courseId}/assignment/invalid-id`)
+        .set('authorization', authToken)
+        .expect(500);
+    });
   });
 });

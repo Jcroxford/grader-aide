@@ -110,7 +110,6 @@ router.get('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res
 });
 
 //UPDATE
-// fixme
 router.put('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res) => {
   const { courseId, assignmentId } = req.params;
 
@@ -124,12 +123,11 @@ router.put('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res
 });
 
 //DELETE
-// fixme
 router.delete('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, res) => {
   const { courseId, assignmentId } = req.params;
 
   Courses.destroyAssignment(courseId, assignmentId)
-    .then(() => res.status(200).send())
+    .then(() => res.status(204).send())
     .catch(err => {
       console.log(err);
 
