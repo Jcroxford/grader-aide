@@ -157,7 +157,7 @@ export default {
   methods: {
     login() {
       const self = this;
-      axiosBase
+      axiosBase()
         .post('/api/auth/login', {
           email: self.email,
           password: self.password
@@ -167,7 +167,7 @@ export default {
     },
     register() {
       const self = this;
-      axiosBase
+      axiosBase()
         .post('/api/auth/signup', {
           name: self.name,
           email: self.email,

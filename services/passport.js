@@ -29,8 +29,10 @@ const jwtOptions = {
 };
 passport.use(
   new JwtStrategy(jwtOptions, (userFromToken, done) => {
+    console.log(userFromToken);
     User.findUser({ _id: ObjectId(userFromToken._id) })
       .then(user => {
+        console.log(user);
         if (!user) return done(null, false);
         if (user.type !== userFromToken.type) return done(null, false);
 
