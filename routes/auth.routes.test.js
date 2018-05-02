@@ -11,13 +11,13 @@ describe('/auth routes', () => {
     it('responds with 400 status if name field is missing from request body', () => {
       const user = {};
 
-      request(app)
+      return request(app)
         .post('/api/auth/signup')
         .send(user)
         .expect(400)
         .expect(res => {
           expect(res.body.error).toBe('name is required');
-          done();
+          // done();
         });
     });
 
@@ -26,13 +26,60 @@ describe('/auth routes', () => {
         name: 'john doe'
       };
 
-      request(app)
+      return request(app)
         .post('/api/auth/signup')
         .send(user)
         .expect(400)
         .expect(res => {
-          expect(res.body.error).toBe('name is required');
-          done();
+          expect(res.body.error).toBe('password is required');
+        });
+    });
+
+    it('responds with 400 status if confirmPassword field is missing from request body', () => {
+      const user = {
+        name: 'john doe',
+        password: 'example'
+      };
+
+      return request(app)
+        .post('/api/auth/signup')
+        .send(user)
+        .expect(400)
+        .expect(res => {
+          expect(res.body.error).toBe('confirmPassword is required');
+        });
+    });
+
+    it('responds with 400 status if email field is missing from request body', () => {
+      const user = {
+        name: 'john doe',
+        password: 'example',
+        confirmPassword: 'example'
+      };
+
+      return request(app)
+        .post('/api/auth/signup')
+        .send(user)
+        .expect(400)
+        .expect(res => {
+          expect(res.body.error).toBe('email is required');
+        });
+    });
+
+    it('responds with 400 status if password and confirm password do not match field is missing from request body', () => {
+      const user = {
+        name: 'john doe',
+        password: 'example',
+        confirmPassword: 'example not the same for sure',
+        email: 'example@email.com'
+      };
+
+      return request(app)
+        .post('/api/auth/signup')
+        .send(user)
+        .expect(400)
+        .expect(res => {
+          expect(res.body.error).toBe('passwords must match');
         });
     });
   });
