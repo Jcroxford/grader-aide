@@ -7,7 +7,7 @@
         <template>
           <div class="login-div">
             <v-tabs
-              color="yellow"
+              color="light-green accent-2"
               light
               slider-color="black"
               centered
@@ -43,7 +43,7 @@
                   <v-btn
                     @click="login"
                     class="centered"
-                    color="success"
+                    color="light-green accent-2"
                     type="submit"
                   >
                   Login
