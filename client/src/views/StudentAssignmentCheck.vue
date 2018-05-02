@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="assignment-container main-background">
-      <div class="navbar-offset">
-         <v-btn
+      <v-btn
           class="backBtn"
-          color="blue"
+          color="green lighten-1"
           @click="navigateToCourse(parentCourseId)">
-              <v-icon>chevron_left</v-icon>
-        </v-btn>
-      <v-container grid-list-md>
+            <v-icon>chevron_left</v-icon>
+      </v-btn>
+      <div class="navbar-offset">
+      <v-container grid-list-xl class="myCard" > <!-- this is the thing that needs to stretch -->
         <v-layout row>
           <v-flex xs12>
-            <v-card>
+            <v-card >
               <v-card-title primary-title>
                 <v-layout row wrap>
                   <v-flex xs12>
@@ -240,5 +240,11 @@ export default {
   margin-bottom: 10vh;
 }
 .backBtn {
+  position: absolute;
+  top: 40px;
+  left: 20px;
+}
+.myCard {
+  width: 1000px;
 }
 </style>
