@@ -1,7 +1,7 @@
 import axiosBase from '@/utils/requestBase';
 
 export function createCourse(course, callback) {
-  axiosBase
+  axiosBase()
     .post('/api/courses/', {
       courseName: course.courseName,
       courseId: course.courseId,
@@ -14,7 +14,7 @@ export function createCourse(course, callback) {
 }
 
 export function getCourses(callback) {
-  axiosBase
+  axiosBase()
     .get('/api/courses')
     .then(response => response.data)
     .then(callback)
@@ -22,7 +22,7 @@ export function getCourses(callback) {
 }
 
 export function getCourse(id, callback) {
-  axiosBase
+  axiosBase()
     .get(`/api/courses/${id}`)
     .then(response => response.data)
     .then(callback)
@@ -30,7 +30,7 @@ export function getCourse(id, callback) {
 }
 
 export function getAssignment(courseId, assignmentId, callback) {
-  axiosBase
+  axiosBase()
     .get(`/api/courses/${courseId}/assignment/${assignmentId}`)
     .then(response => response.data)
     .then(callback)
@@ -38,7 +38,7 @@ export function getAssignment(courseId, assignmentId, callback) {
 }
 
 export function createAssignment(courseId, assignment, callback) {
-  axiosBase
+  axiosBase()
     .post(`/api/course/${courseId}/assignment`, {
       name: assignment.name,
       totalPts: assignment.totalPts,
@@ -51,7 +51,7 @@ export function createAssignment(courseId, assignment, callback) {
 }
 
 export function updateAssignment(courseId, assignment, callback) {
-  axiosBase
+  axiosBase()
     .put(`/api/courses/${courseId}/assignment/${assignment._id}`, {
       _id: assignment._id,
       name: assignment.assignmentName,
@@ -65,7 +65,7 @@ export function updateAssignment(courseId, assignment, callback) {
 }
 
 export function updateCourse(course, callback) {
-  axiosBase
+  axiosBase()
     .put(`/api/courses/${course._id}`, {
       courseName: course.courseName,
       courseId: course.courseId,
@@ -78,7 +78,7 @@ export function updateCourse(course, callback) {
 }
 
 export function deleteCourse(course, callback) {
-  axiosBase
+  axiosBase()
     .delete(`/api/courses/${course._id}`)
     .then(response => response.data)
     .then(callback)
@@ -86,7 +86,7 @@ export function deleteCourse(course, callback) {
 }
 
 export function deleteAssignment(courseId, assignmentId, callback) {
-  axiosBase
+  axiosBase()
     .delete(`/api/courses/${courseId}/assignment/${assignmentId}`)
     .then(response => response.data)
     .then(callback)

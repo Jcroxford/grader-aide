@@ -22,10 +22,12 @@ export default {
   methods: {
     // .then not needed because we only care if there is an error during authentication
     validateAuthToken() {
-      axiosBase.get('/api/auth/validate-token').catch(() => {
-        window.localStorage.removeItem('authorization');
-        this.$router.push({ path: '/login' });
-      });
+      axiosBase()
+        .get('/api/auth/validate-token')
+        .catch(() => {
+          window.localStorage.removeItem('authorization');
+          this.$router.push({ path: '/login' });
+        });
     }
   },
   created() {

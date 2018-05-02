@@ -3,8 +3,7 @@ const passport = require('passport');
 
 const requireLogin = passport.authenticate('local', { session: false });
 
-// fixme example code for using jwt auth. leaving here for now but needs to be removed if we end using it somehwere else
-// we probably want a controller rapper for checking for student or admin types
+// we probably want a controller wrapper for checking for student or admin types
 const requireAuth = passport.authenticate('jwt', { session: false });
 
 const User = require('../models/user.model');
