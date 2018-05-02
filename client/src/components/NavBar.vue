@@ -6,7 +6,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn flat @click="navigateHome" v-if="isAdmin">All Courses</v-btn>
-        <v-btn flat v-if="isStudent">View Submissions</v-btn>
+        <v-btn flat @click="navigateStudentHome" v-if="isStudent">View My Courses</v-btn>
         <v-btn flat v-if="isAuthenticated" @click="destrouAuthToken">Logout</v-btn>
         <v-btn flat v-else>Login</v-btn>
       </v-toolbar-items>
@@ -36,6 +36,9 @@ export default {
     },
     navigateHome() {
       this.$router.push({ path: '/' });
+    },
+    navigateStudentHome() {
+      this.$router.push({ path: '/student' });
     }
   },
   computed: {

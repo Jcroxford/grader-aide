@@ -5,7 +5,9 @@ import GradeAssignment from '@/views/GradeAssignment';
 import CreateAssignment from '@/views/CreateAssignment';
 import CreateCourse from '@/views/CreateCourse';
 import Login from '@/views/Login';
-import StudentPlaceholder from '@/views/StudentPlaceholder';
+import StudentCourseList from '@/views/StudentCourseList';
+import StudentAssignmentList from '@/views/StudentAssignmentList';
+import StudentAssignmentCheck from '@/views/StudentAssignmentCheck';
 import AssignmentList from '@/views/AssignmentList';
 import CourseList from '@/views/CourseList';
 
@@ -27,7 +29,17 @@ export default new Router({
     {
       path: '/student',
       beforeEnter: routeGaurds.isStudentGaurd,
-      component: StudentPlaceholder
+      component: StudentCourseList
+    },
+    {
+      path: '/student/courses/:courseId',
+      beforeEnter: routeGaurds.isStudentGaurd,
+      component: StudentAssignmentList
+    },
+    {
+      path: '/student/course/:courseId/assignment/:assignmentId',
+      beforeEnter: routeGaurds.isStudentGaurd,
+      component: StudentAssignmentCheck
     },
     {
       path: '/courses',
