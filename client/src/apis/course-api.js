@@ -1,5 +1,7 @@
 import axiosBase from '@/utils/requestBase';
 
+// COURSES
+// CREATE
 export function createCourse(course, callback) {
   axiosBase()
     .post('/api/courses/', {
@@ -13,6 +15,7 @@ export function createCourse(course, callback) {
     .catch(callback);
 }
 
+// READ
 export function getCourses(callback) {
   axiosBase()
     .get('/api/courses')
@@ -29,14 +32,31 @@ export function getCourse(id, callback) {
     .catch(callback);
 }
 
-export function getAssignment(courseId, assignmentId, callback) {
+// UPDATE
+export function updateCourse(course, callback) {
   axiosBase()
-    .get(`/api/courses/${courseId}/assignment/${assignmentId}`)
+    .put(`/api/courses/${course._id}`, {
+      courseName: course.courseName,
+      courseId: course.courseId,
+      assignments: course.assignments,
+      studentsEnrolled: course.studentsEnrolled
+    })
     .then(response => response.data)
     .then(callback)
     .catch(callback);
 }
 
+// DELETE
+export function deleteCourse(course, callback) {
+  axiosBase()
+    .delete(`/api/courses/${course._id}`)
+    .then(response => response.data)
+    .then(callback)
+    .catch(callback);
+}
+
+// ASSIGMENTS
+// CREATE
 export function createAssignment(courseId, assignment, callback) {
   axiosBase()
     .post(`/api/course/${courseId}/assignment`, {
@@ -50,6 +70,16 @@ export function createAssignment(courseId, assignment, callback) {
     .catch(callback);
 }
 
+// READ
+export function getAssignment(courseId, assignmentId, callback) {
+  axiosBase()
+    .get(`/api/courses/${courseId}/assignment/${assignmentId}`)
+    .then(response => response.data)
+    .then(callback)
+    .catch(callback);
+}
+
+// UPDATE
 export function updateAssignment(courseId, assignment, callback) {
   axiosBase()
     .put(`/api/courses/${courseId}/assignment/${assignment._id}`, {
@@ -64,27 +94,7 @@ export function updateAssignment(courseId, assignment, callback) {
     .catch(callback);
 }
 
-export function updateCourse(course, callback) {
-  axiosBase()
-    .put(`/api/courses/${course._id}`, {
-      courseName: course.courseName,
-      courseId: course.courseId,
-      assignments: course.assignments,
-      studentsEnrolled: course.studentsEnrolled
-    })
-    .then(response => response.data)
-    .then(callback)
-    .catch(callback);
-}
-
-export function deleteCourse(course, callback) {
-  axiosBase()
-    .delete(`/api/courses/${course._id}`)
-    .then(response => response.data)
-    .then(callback)
-    .catch(callback);
-}
-
+// DELETE
 export function deleteAssignment(courseId, assignmentId, callback) {
   axiosBase()
     .delete(`/api/courses/${courseId}/assignment/${assignmentId}`)

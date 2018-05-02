@@ -301,6 +301,7 @@ export default {
 }
 
 .navbar-offset {
-  margin-top: 50px;
+  margin-top: 10vh;
+  margin-bottom: 15vh;
 }
 </style>
