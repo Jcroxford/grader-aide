@@ -124,7 +124,7 @@ router.delete('/courses/:courseId/assignment/:assignmentId', requireAuth, (req, 
   const { courseId, assignmentId } = req.params;
 
   Courses.destroyAssignment(courseId, assignmentId)
-    .then(() => res.status(200).send())
+    .then(() => res.status(204).send())
     .catch(err => {
       console.log(err);
 

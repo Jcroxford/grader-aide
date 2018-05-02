@@ -14,7 +14,7 @@ function deepCopy(x) {
   return JSON.parse(JSON.stringify(x));
 }
 
-describe('get /courses', function() {
+describe('courses.routes.js', function() {
   beforeAll(() => db.connect());
   afterAll(() => db.close());
 
@@ -136,6 +136,131 @@ describe('get /courses', function() {
         .set('authorization', authToken)
         .send(changes)
         .expect(500);
+    });
+  });
+
+  describe('DELETE /course/:id', () => {
+    it('removes course if it exists', () => {});
+  });
+
+  describe('PUT /courses/:courseId/assignment/:assignmentId', () => {
+    it('updates a course if given a valid id', () => {
+      const courseId = coursesSeed[0]._id.toHexString();
+      const assignmentId = coursesSeed[0].assignments[0]._id.toHexString();
+      const changes = {
+        totalPts: 9001
+      };
+
+      return request(app)
+        .put(`/api/courses/${courseId}/assignment/${assignmentId}`)
+        .set('authorization', authToken)
+        .send(changes)
+        .expect(204)
+        .expect(async () => {
+          const course = await courseCollection.findOne({ _id: ObjectId(courseId) });
+
+          expect(course.assignments[0]).toMatchObject(changes);
+        });
+    });
+
+    it('returns 500 status code if given an invalid or unused id', () => {
+      const changes = {
+        totalPts: 9001
+      };
+      const courseId = coursesSeed[0]._id.toHexString();
+      const assignmentId = coursesSeed[0].assignments[0]._id.toHexString();
+
+      return request(app)
+        .put(`/api/courses/${courseId}/assignment/invalid-id`)
+        .set('authorization', authToken)
+        .send(changes)
+        .expect(500);
+    });
+  });
+
+  describe('DELETE /courses/:courseId/assignment/:assignmentId', () => {
+    it('removes course if it exists', () => {
+      const courseId = coursesSeed[0]._id.toHexString();
+      const assignmentId = coursesSeed[0].assignments[0]._id.toHexString();
+
+      return request(app)
+        .delete(`/api/courses/${courseId}/assignment/${assignmentId}`)
+        .set('authorization', authToken)
+        .expect(204);
+    });
+
+    it('returns 500 status code if given an invalid or unused id', () => {
+      const courseId = coursesSeed[0]._id.toHexString();
+      return request(app)
+        .delete(`/api/courses/${courseId}/assignment/invalid-id`)
+        .set('authorization', authToken)
+        .expect(500);
+    });
+  });
+
+  describe('DELETE /course/:id', () => {
+    it('removes course if it exists from the database', () => {
+      const courseId = coursesSeed[0]._id.toHexString();
+
+      return request(app)
+        .delete(`/api/courses/${courseId}`)
+        .set('authorization', authToken)
+        .expect(200)
+        .expect(async res => {
+          const course = await courseCollection.findOne({ _id: ObjectId(res.body.id) });
+
+          return expect(course).toBeNull();
+        });
+    });
+  });
+
+  describe('POST /course/:courseId/assignment', () => {
+    it('adds assignment to a course in mongodb collection', () => {
+      const courseId = coursesSeed[0]._id.toHexString();
+      const assignment = {
+        _id: new ObjectId(),
+        name: 'example assignment',
+        totalPts: '100',
+        rules: [
+          {
+            desc: 'example rule',
+            pts: 2,
+            checked: false,
+            _id: new ObjectId()
+          }
+        ],
+        comments: [
+          {
+            desc: 'example comment',
+            _id: new ObjectId(),
+            checked: false
+          }
+        ]
+      };
+      request(app)
+        .post(`course/${courseId}/assignment`)
+        .set('authorization', authToken)
+        .send(assignment)
+        .expect(200)
+        .expect(res => {
+          expect(ObjectId(res.body.id).isValid()).toBeTruthy();
+        });
+    });
+  });
+
+  describe('GET /courses/:courseId/assignment/:assignmentId', () => {
+    it('returns assignment when given valid course and assignment id', () => {
+      const courseId = coursesSeed[0]._id.toHexString();
+      const assignmentId = coursesSeed[0].assignments[0]._id.toHexString();
+      const expectedAssignment = deepCopy(coursesSeed[0].assignments[0]);
+
+      return request(app)
+        .get(`/api/courses/${courseId}/assignment/${assignmentId}`)
+        .set('authorization', authToken)
+        .expect(200)
+        .expect(async res => {
+          expect(res.body).toEqual(expectedAssignment);
+        });
     });
   });
 });
